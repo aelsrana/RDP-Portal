@@ -1,0 +1,130 @@
+﻿<div *ngIf="!hideLogin">
+    <div id="wrap">
+        <div class="logincontainer">
+            <ul class="slctlan">
+                <li>XPRESS <span class="blue">MONEY</span><span class="gray"> Online</span></li>
+                <li>
+                    <div class="loginslct">
+                        <select id="language" tabindex="1" name="lang">
+                            <option value="en">English</option>
+                            <option value="ru">Russian</option>
+                            <option value="tr">Turkish</option>
+                            <option value="ar">Arabic</option>
+                        </select>
+                    </div>
+                </li>
+            </ul>
+            <div class="requirebox">
+                <ul class="require" id="message" style="display:none"></ul>
+            </div>
+            <div class="loginsection">
+                <div class="lftsection" >
+                    <img alt="XM Logo" title="XM Logo" src="./assets/xm/login_logo.png">
+                    <div class="notebox">
+                        <h1>Important</h1>
+                        <ul>
+                            <li><span></span>&nbsp;Never disclose your Password and PIN to anyone.</li>
+                            <li><span></span>&nbsp;Change your login Password and PIN periodically.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="rgtsection" style="margin-top: 50px;">
+                    <form name="X2ALoginForm" method="post" action="https://www.xpressmoney.biz/X2A/editX2ALogin.do" id="X2ALoginForm">
+                        <div class="loginbox">
+                            <h1>Login</h1>
+                            <ul>
+                                <!-- 5602 start -->
+                                <table>
+                                    <tbody>
+                                        <tr style="display: none;">
+                                            <td style="display: none;">VKAgent Codes</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <li>
+                                    <label>User ID</label>
+                                    <input type="text" name="userID" maxlength="16" size="15" tabindex="3" value="" class="loginput" id="userID" autocomplete="off">
+                                </li>  <!-- 5602 -->
+                                <li>
+                                    <label>Password</label>
+                                    <input type="password" tabindex="4" id="password" name="password" size="15" maxlength="30" class="loginput" autocomplete="off">
+                                </li>
+                                <li id="vktbutton">
+                                    <label>
+                                        <div>
+                                            <div id="stage">
+                                                <div class="slider-frame">
+                                                    <span class="slider-button"></span>
+                                                </div>
+                                                <input type="checkbox" name="enableKeyboard" value="true" id="enableKeyboard" tabindex="-1"><div style="margin-right:-5px;margin-right:-9px\9;float:right;">Enable virtual keyboard (Recommended)</div>
+                                            </div>
+                                            <input type="hidden" name="openKeyboard" value="false" id="openKeyboard">
+                                        </div>
+                                    </label>
+                                </li>
+                            </ul>
+                            <ul class="smlnav" id="smlnavid">
+                                <br />
+                                <li><input type="submit" id="logbutton" (click)="hideLogin=true;" title="Login" tabindex="6" value="Login" class="loginsignin"></li>
+                            </ul>
+                        </div>
+                        <div align="right">
+                            <img src="./assets/xm/chat.png" width="35" height="30" align="middle" border="1">&nbsp;<a href="javascript:void(0)" title="Click to Chat">
+                                <font size="2">
+                                    <u><b>Chat now!</b></u>
+                                </font>
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div class="footlft">
+            <span>
+                <a href="https://trustsealinfo.verisign.com/splash?form_file=fdf/splash.fdf&amp;dn=www.xpressmoney.biz&amp;lang=en" target="_blank">
+                    <img src="./assets/xm/secur_sign.png" alt="verisign" title="verisign">
+                </a>
+            </span>
+            <ul class="footcontent">
+                <li>This site is certified by Verisign as a secure and trusted site.</li>
+                <li>All information sent or received in this site is encrypted using 256-bit encryption.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div *ngIf="hideLogin" class="row">
+    <div class="col-md-12" style="text-align:center;
+  padding-bottom:5px;
+  background: /* gradient can be an image */
+    linear-gradient(
+      to left,
+      rgba(92,7,52,1) 0%,
+      rgba(134,29,84,1) 12%,
+      rgba(255,93,177,1) 47%,
+      rgba(83,0,30,1) 100%
+    )
+    left
+    bottom
+    #fff
+    no-repeat;
+  background-size:100% 5px; margin-top: -50px; padding: 20px;">
+        <img alt="XM Logo" title="XM Logo" src="./assets/xm/login_logo.png" class="pull-left">
+        <div class="pull-left" style="border-left: 3px solid #42d7f4;padding: 60px;margin-left: 20px;margin-right: -100px;"></div>
+        <div class="pull-left">
+            <p style="color:#42d7f4;text-align: left;">GLOBAL</p>
+            <p style="color:#42d7f4;text-align: left;">MONEY</p>
+            <p style="color:#42d7f4;text-align: left;">TRANSFER</p>
+        </div>
+        <ul class="pull-left" style="margin-left: 100px;">
+            <li style="color:#f15c22;">XPRESS <span style="color: #42d7f4;">MONEY</span><span style="color: gray;"> Online</span></li>
+        </ul>
+        <a href="#" class="btn btn-primary btn-lg pull-right">Logout</a>
+    </div>
+    <div class="col-md-12" style="margin-top: 30px;">
+        <label style="padding:20px;">Xpin : </label><input style="margin-right: 20px;" type="text" #PINInput id="PIN" /><input type="submit" id="submitId" (click)="checkAndShow(PINInput.value)" title="Submit" value="Submit" class="loginsignin">
+        <h1 style="color: red;margin-left: 85px;" *ngIf="isSubmitClicked && !isValidPIN">Invalid PIN</h1>
+        <img style="margin-left: 15px;width: 97%;" *ngIf="isSubmitClicked && isValidPIN" src="./assets/xm/details.png">
+    </div>
+</div>

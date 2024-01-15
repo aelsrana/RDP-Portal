@@ -1,0 +1,26 @@
+﻿:host >>> .search-result > ul > li.list-group-item {
+    cursor: pointer !important;
+    border-radius: 0px;
+    padding: 3px 15px;
+}
+:host >>> h5 {
+    font-size:14px;
+    font-weight:bold;
+    margin:0;
+    text-transform:capitalize;
+}
+:host >>> img.img-list{
+    width:42px;
+    height:42px;
+    object-fit:contain;
+    border-radius:100%;
+    border:1px solid #cdcdcd;
+}
+:host >>> .nid-type{
+    font-weight:bold;
+    font-size: 14px;
+}
+:host >>> .nid-number{
+    font-weight:normal;
+    font-size: 12px;
+}

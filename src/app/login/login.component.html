@@ -1,0 +1,63 @@
+﻿<div class="message-box mb-3">
+    <ngb-alert [type]="msg.type" (close)="closeMsg(msg)" *ngFor="let msg of msgs">{{ msg.message }}</ngb-alert>
+</div>
+<section class="login-bg">
+    <div class="login-header text-center">
+        <h1 style="color: #fff"> রেমিটেন্স প্লাটফর্ম  </h1>
+        <!-- <img src="/assets/images/agrani_doer_logo.png" alt="Logo"> -->
+    </div>
+    <div class="logo text-center">
+        <img src="/assets/images/doer_logo.png" alt="logo" class="img-fluid" />
+    </div>
+    <div class="container-login">
+        <!--[@routerTransition]-->
+        <div class="card">
+            <div class="card-body">
+                <form id="loginform" role="form" (keydown)="keyDownFunction($event)">
+                    <div class="form-row">
+                        <div class="col-md-12" style="padding:0">
+                            <div class="form-group rdp-form-group">
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-fw fa-user"></i></span>
+                                    </div>
+                                    <span class="has-float-label">
+                                        <input class="form-control rdp-input" id="login-username" type="text" name="username" [(ngModel)]="user.userId"
+                                               placeholder="Enter Your Username." autocomplete="off" />
+                                        <label for="login-username">Username</label>
+                                    </span>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12" style="padding:0">
+                            <div class="form-group rdp-form-group">
+
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-fw fa-lock"></i></span>
+                                    </div>
+                                    <span class="has-float-label">
+                                        <input class="form-control rdp-input" id="login-password" type="password" name="password" [(ngModel)]="user.password"
+                                               placeholder="Enter Your Password." autocomplete="off" />
+                                        <label for="login-password">Password</label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row text-center">
+                        <div class="col-md-12" style="padding:0">
+                            <div class="form-group rdp-form-group">
+                                <button (click)="onLoggedin(user)" class="btn btn-default btn-rdp btn-login" type="submit" name="action">Login</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>

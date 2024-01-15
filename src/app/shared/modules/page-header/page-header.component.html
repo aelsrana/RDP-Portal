@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-xl-12" style="margin-top: -10px">
+        <h4 class="page-header">
+            {{heading}}
+        </h4>
+        <ol class="breadcrumb" >
+            <li class="breadcrumb-item"  *ngIf="showDashboard">
+                <mat-icon class="mat-icon-20">dashboard</mat-icon> <a href="Javascript:void(0)" [routerLink]="['']"> {{ 'Dashboard' | translate}}  </a>
+            </li> 
+            <li class="breadcrumb-item {{active}}">
+                <mat-icon class="mat-icon-24"> {{icon}} </mat-icon>
+                <a *ngIf="active !=''"  > {{heading_link}} </a>
+                <a *ngIf="active ==''" href="Javascript:void(0)" (click)="goBack()"> {{heading_link}} </a>
+            </li>
+            <li *ngIf="title !=null" class="breadcrumb-item active">
+                    <mat-icon class="mat-icon-24"> {{details}} </mat-icon> {{title}}
+            </li>
+        </ol>
+    </div>
+</div>

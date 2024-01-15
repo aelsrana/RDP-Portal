@@ -1,0 +1,11 @@
+.mat-column-lock, .mat-column-remarks, .mat-column-select{
+    padding-left: 0px !important;
+}
+
+.mat-column-lock {
+    padding-right: 0px !important;
+}
+
+.mat-column-select {
+    padding-right: 3px !important;
+}

@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-md-5" >
+        <img src="./../../../assets/images/Page-not-found.png" style="width: 600px; height: 400px">
+    </div>
+    <div class="col-md-7">
+        <h1>Hmm. We’re having trouble finding that site.</h1>
+
+        We can’t connect to the server at {{hostname}};
+        <br/>
+        <strong>If that address is correct, here are three other things you can try:</strong>
+        <ul style="padding-left: 30px">
+            <li>
+                Try again later.
+            </li>
+            <li>
+                Check your network connection.
+            </li>
+            <li>
+                If you are connected but behind a firewall, check that browser has permission to access the Web.
+            </li>
+        </ul>
+        <button class="btn btn-primary" (click)="goToHomePage()">Try Again</button>
+
+    </div>
+</div>

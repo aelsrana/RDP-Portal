@@ -1,0 +1,32 @@
+.mat-column-lock, .mat-column-remarks, .mat-column-select{
+    padding-left: 0px !important;
+}
+
+.mat-column-lock {
+    padding-right: 0px !important;
+}
+
+.mat-column-select {
+    padding-right: 3px !important;
+}
+
+:host >>> .ui-growl {
+    z-index: 1102 !important;
+    right: 15px !important;
+  }
+  :host >>> .ui-growl-item-container {
+    margin-top: 20px;
+    border-radius: 0px;
+    box-shadow: none;
+  }
+  :host >>> .ui-growl-item {
+    padding: 10px;
+  }
+  :host >>> .ui-growl-icon-close {
+    top:10px;
+    right: 10px;
+  }
+  :host >>> .ui-growl-image {
+    top: 10px;
+    left: 10px;
+  }

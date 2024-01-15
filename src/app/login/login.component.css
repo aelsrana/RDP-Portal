@@ -1,0 +1,91 @@
+﻿section.login-bg {
+  background: url(/assets/images/login_bg.png) 0 0 no-repeat;
+  width: 700px;
+  height: 500px;
+  margin: 0 auto;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.17);
+}
+.container-login {
+  width: 500px;
+  margin: auto;
+}
+.logo img{
+  position:relative;
+  top:2px;
+  z-index: 1200;
+}
+.login-header {
+  padding: 50px 0px 20px 0px;
+}
+.login-header h4{
+  font-size: 14px;
+  font-weight:400;
+  color: #FFCE54;
+}
+
+
+
+
+/* ====================== Card ====================== */
+.message-box{
+	width:700px;
+    margin:auto;
+}
+.card {
+  border-radius: 3px;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.17);
+}
+.card-body {
+  padding: 30px;
+}
+
+
+
+
+/* ====================== Input ====================== */
+.rdp-input {
+  height: 40px;
+  border-radius: 0px !important;
+  border-left: 0px;
+  border: 1px solid #E6E9ED
+}
+.input-group-text {
+  border-radius: 0px;
+  background: linear-gradient(-30deg, #6982E5 1%,#4FC1E9 100%);
+  background: -webkit-linear-gradient(-30deg, #6982E5 1%,#4FC1E9 100%);
+  border: 1px solid #6982E5;
+  border-right: 0px;
+}
+.input-group-text i{
+  color:#fff;
+}
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus input:-webkit-autofill,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #191919;
+  -webkit-box-shadow: 0;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+
+
+
+
+
+/* ====================== Button ====================== */
+.btn-login {
+  padding: 10px 50px;
+  text-transform: uppercase;
+  background: linear-gradient(-30deg, #6982E5 1%,#4FC1E9 100%);
+  background: -webkit-linear-gradient(-30deg, #6982E5 1%,#4FC1E9 100%);
+  border: 0px;
+  margin-top: 20px;
+}
+
+

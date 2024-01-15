@@ -1,0 +1,21 @@
+﻿<div class="row">
+    <div class="col-md-6" [@routerTransition]>
+        <!--<div class="card" >
+          <!--<h5 class="card-header">{{item['topmenuid'] | translate}}</h5>-->
+        <!--<div class="card-body">-->
+        <!--</div>
+        </div>-->
+        <ul *ngFor="let item of menuJson" style="padding-left:3px">
+            <li class="list-inline-item col-md-5" routerLink="{{leftmenu.text}}" *ngFor="let leftmenu of item['leftmenuids']">
+                <p> <mat-icon style="font-size: 36px"> {{leftmenu.icon}} </mat-icon></p>
+                {{leftmenu.text | translate}}
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-6" style="padding-right: 20px" [@routerTransition]>
+        <p-chart type="pie" [data]="pieChartData"></p-chart>
+        <div class="bar-canvas">
+            <p-chart type="bar" [data]="barChartData"></p-chart>
+        </div>
+    </div>
+</div>

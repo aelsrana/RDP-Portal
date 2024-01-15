@@ -1,0 +1,106 @@
+﻿<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="form-group rdp-form-group">
+            <span class="has-float-label">
+                <input class="form-control search-input" id="recipientMobile" type="text" name="recipientMobile" maxlength="11" pattern="[0][1][5-9][0-9]{8,8}"
+                       OnlyNumber="true" required tabindex="1" placeholder="Enter Your Mobile No." [(ngModel)]="recipientMobile" #recipientMobileNgModel="ngModel"
+                       (input)="checkValidMobileNo($event.target.value)" autofocus autocomplete="off" />
+                <label for="recipientMobile">Mobile No.<span style="color:red">*</span></label>
+            </span>
+            <span *ngIf="recipientMobileNgModel.valid"><i class="fa fa-check" style="color:green;position:absolute;top:6px;right:20px"> </i></span>
+            <span *ngIf="recipientMobile!='' && recipientMobileNgModel.invalid"><i class="fa fa-times" style="color:red;position:absolute;top:6px;right:20px"> </i></span>
+        </div>
+        <div *ngIf="showAdvancedSearchOptions">
+            <div class="form-group rdp-form-group">
+                <span class="has-float-label">
+                    <input class="form-control search-input" id="nid" type="text" placeholder="Enter Your NID" tabindex="2"
+                           name="nid" [(ngModel)]="recipientNid" OnlyNumber="true" maxlength="17"
+                           (input)="checkValidNidNo($event.target.value)" autocomplete="off" />
+                    <label for="nid">National ID</label>
+                </span>
+                <span *ngIf="nidValidSign"><i class="fa fa-check" style="color:green;position:absolute;top:50px;right:20px"> </i></span>
+                <span *ngIf="recipientNid!='' && !nidValidSign"><i class="fa fa-times" style="color:red;position:absolute;top:50px;right:20px"> </i></span>
+            </div>
+            <div class="form-group rdp-form-group">
+                <span class="has-float-label">
+                    <input class="form-control search-input" id="passport" type="text" tabindex="3" name="passport"
+                           placeholder="Enter Your Passport No." [(ngModel)]="recipientPassport" maxlength="9"
+                           (input)="checkValidPassportNo($event.target.value)" autocomplete="off" />
+                    <label for="passport">Passport No.</label>
+                </span>
+                <span *ngIf="passportValidSign"><i class="fa fa-check" style="color:green;position:absolute;top:95px;right:20px"> </i></span>
+                <span *ngIf="recipientPassport!='' && !passportValidSign"><i class="fa fa-times" style="color:red;position:absolute;top:95px;right:20px"> </i></span>
+            </div>
+            <div class="form-group rdp-form-group">
+                <span class="has-float-label">
+                    <input class="form-control search-input" id="drivingLisence" tabindex="4" maxlength="15" name="drivingLisence"
+                           type="text" placeholder="Enter Your Driving Lisence" [(ngModel)]="recipientDrivingLic" autocomplete="off" />
+                    <label for="drivingLisence">Driving Lisence</label>
+                </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-6" style="padding-left:0">
+                <button class="btn btn-block btn-rdp" (click)="searchOnClick()" tabindex="5" #searchButtonRef
+                        [disabled]="recipientMobileNgModel.invalid || (recipientNid != '' && !nidValidSign) || (recipientPassport != '' && !passportValidSign)">
+                    <i class="fa fa-search"></i>  SEARCH
+                </button>
+            </div>
+            <div class="col-md-6" style="padding-right:0">
+                <a (click)="showQRCodeScanDialog()" tabindex="6" class="btn btn-block btn-rdp"><i class="fa fa-qrcode"></i>  QR SCAN</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<div class="row" style="margin-top:20px;">
+    <div class="col-md-4"></div>
+    <div class="col-md-4">
+        <div *ngIf="!isShowing && personList && personList.length > 0" class="search-result">
+            <ul class="list-group">
+                <li *ngFor="let person of personList" (click)="selectedBeneficiary(person.photoIdList[0].photoIdType,person.photoIdList[0].photoIdNo)" class="list-group-item">
+                    <div class="row">
+                        <div class="col-md-2" style="padding:0">
+                            <img class="rounded-circle" [src]="getImagePath(person.photoPath)" height="42" width="42" />
+                        </div>
+                        <div class="col-md-10" style="padding:0">
+                            <h5>{{person.fullName}}</h5>
+                            <span class="nid-type">{{person.photoIdList[0].photoIdType}}: </span>
+                            <span class="nid-number">{{person.photoIdList[0].photoIdNo}}</span>
+                        </div>
+                    </div>
+                </li>
+                <li class="list-group-item text-center" (click)="onNoneOfAboveClick()">None of the above</li>
+            </ul>
+        </div>
+        <div *ngIf="!isShowing && !isError && personList && personList.length == 0">
+            <p style="color: red;">No recipient found.<br /> Please search by NID or passport or driving lisence.</p>
+        </div>
+        <div *ngIf="isError">
+            <p style="color: red;">Something went wrong on server.<br /> Please try again.</p>
+        </div>
+    </div>
+    <div class="col-md-4"></div>
+</div>
+<p-dialog header="QR Code Scan" width="600" height="500" [(visible)]="qrCodeScanDisplay" modal="true">
+    <div [hidden]="!hasCamera">
+        <zxing-scanner #scanner start="true" [device]="selectedDevice" (scanSuccess)="handleQrCodeResult($event)"></zxing-scanner>
+    </div>
+    <div *ngIf="!hasCamera && hasPermission === true">
+        <p>Looks like your actual device does not has cameras.</p>
+    </div>
+    <div *ngIf="hasPermission === undefined">
+        <p>Waiting for permissions.</p>
+    </div>
+    <div *ngIf="hasPermission === false">
+        <p>You denied the camera permissions, can't scan anything without it.</p>
+    </div>
+</p-dialog>
+<p-growl [value]="growlMessage"></p-growl>

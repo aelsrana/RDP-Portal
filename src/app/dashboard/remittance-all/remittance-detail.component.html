@@ -1,0 +1,157 @@
+<app-page-header [heading]="'Remittance'" [heading_link]="'List View'" [active]="''" [icon]="'list'" [details]="'view_module'"  [title]="'Detail View'"></app-page-header>
+<section class="container-fluid">
+    <ngb-alert [type]="msg.type" (close)="closeMsg(msg)" *ngFor="let msg of msgs">{{ msg.message }}</ngb-alert>
+    <mat-card >
+        <mat-card-actions class="mb-5 mx-3"> 
+            <div class="float-left" >
+                <button mat-raised-button (click)="goBack()" class="btnBack">
+                    <mat-icon>arrow_back</mat-icon> Back</button>
+            </div>
+        </mat-card-actions>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <form class="pt-3" [formGroup]="remittanceForm">
+                <div class="row">
+                    <div class="col-sm-4" >
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="branchName" name="branchName" [disableControl]="true"  autocomplete="branchName"  
+                                        type="text" placeholder="Enter Branch Name" formControlName="branchName"/>
+                                <label for="branchName">Branch Name</label>
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="exHouseName" name="exHouseName" [disableControl]="true" autocomplete="exHouseName" 
+                                        type="text" placeholder="Enter Exchange House Name" formControlName="exHouseName"/>
+                                <label for="exHouseName">Exchange House</label>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="pin" name="pin"   [disableControl]="true" autocomplete="pin" 
+                                        type="text" placeholder="Enter PIN Name" formControlName="pin"/>
+                                <label for="pin">PIN</label>
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="ttNumber" name="ttNumber"  [disableControl]="true" autocomplete="ttNumber"  
+                                        type="text" placeholder="Enter TT Number" formControlName="ttNumber"/>
+                                <label for="pin">TT Number</label>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="photoId" name="photoId"  [disableControl]="true" autocomplete="photoId" 
+                                        type="text" placeholder="Enter TT Number" formControlName="photoId"/>
+                                <label for="photoId">Photo ID</label>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="photoIdType" name="photoIdType"  [disableControl]="true" autocomplete="photoIdType" 
+                                        type="text" placeholder="Enter Photo Type" formControlName="photoIdType"/>
+                                <label for="photoIdType">Photo ID Type</label>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <textarea class="form-control" id="remarks" name="remarks" [disableControl]="true" autocomplete="remarks" 
+                                        type="text" placeholder="Enter Remarks" formControlName="remarks"></textarea>
+                                <label for="remarks">Remarks</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" >
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="senderName" name="senderName" [disableControl]="true"  autocomplete="senderName"   
+                                        type="text" placeholder="Enter Sender Name" formControlName="senderName"/>
+                                <label for="senderName">Sender Name</label>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="senderCountry" name="senderCountry"  [disableControl]="true" autocomplete="senderCountry"   
+                                        type="text" placeholder="Enter Sender Country" formControlName="senderCountry"/>
+                                <label for="senderCountry">Sender Country</label>
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="recipientName" name="recipientName"  [disableControl]="true" autocomplete="recipientName"  
+                                        type="text" placeholder="Enter Recipient Name" formControlName="recipientName"/>
+                                <label for="recipientName">Recipient Name</label>
+                            </span>
+                        </div>
+
+
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="recipientMobileNo" name="recipientMobileNo" [disableControl]="true" autocomplete="recipientMobileNo"    
+                                        type="text" placeholder="Enter Recipient Mobile" formControlName="recipientMobileNo"/>
+                                <label for="recipientMobileNo">Recipient Mobile</label>
+                            </span>
+                        </div>
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="dateOfBirth" name="dateOfBirth" [disableControl]="true" autocomplete="dateOfBirth"   
+                                        type="text" placeholder="Enter Date of Birth" formControlName="dateOfBirth"/>
+                                <label for="dateOfBirth">Date of Birth</label>
+                            </span>
+                        </div>
+                       
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="expectedAmount" name="expectedAmount" [disableControl]="true" autocomplete="expectedAmount"    
+                                        type="text" placeholder="Enter Amount" formControlName="amount"/>
+                                <label for="expectedAmount">Expected Amount</label>
+                            </span>
+                        </div>
+
+                        <div class="form-group">
+                            <span class="has-float-label">
+                                <input class="form-control" id="actualAmount" name="actualAmount"  [disableControl]="true" autocomplete="actualAmount" 
+                                        type="text" placeholder="Enter Actual Amount" formControlName="actualAmountInBdt"/>
+                                <label for="actualAmount">Actual Amount in BDT</label>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-sm-4" >
+                            <div class="form-group text-center">
+                                <img  src="{{personImgFileName}}" class="rounded-circle" width="100px" height = "100px" style="cursor: zoom-in" alt="User Image" (click)="customerPhotoModalDialog=true">
+                                <h5 class="text-center" style="margin-top: 10px; ">{{remittanceForm.controls['recipientName'].value}}</h5>
+                            </div>
+    
+                            <div class="form-group text-center">
+                                <img class="img-thumbnail" style="max-width: 70%; height: 170px; cursor: zoom-in" src="{{frontImgFileName}}" alt="Image" (click)="frontPhotoModalDialog=true">
+                            </div>
+    
+                            <div class="form-group text-center">
+                                <img class="img-thumbnail" style="max-width: 70%; height: 170px; cursor: zoom-in" src="{{backImgFileName}}" alt="Image" (click)="backPhotoModalDialog=true">
+                            </div>
+                        </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+    
+</section>
+
+<!--------------------------------------------------- Customer Photo Dialog ------------------------------------------------>
+<p-dialog header="Customer Photo" [(visible)]="customerPhotoModalDialog" modal="true" dismissableMask="true">
+    <img src="{{personImgFileName}}" alt="Customer Photo" [style.width.px]="500" [style.height.px]="400" style="object-fit: contain;" />
+</p-dialog>
+<!---------------------------------------------------- Front Photo Dialog -------------------------------------------------->
+<p-dialog header="Photo Id Front" [(visible)]="frontPhotoModalDialog" modal="true" dismissableMask="true">
+    <img src="{{frontImgFileName}}" alt="Photo Id Front" [style.width.px]="650" [style.height.px]="400" style="object-fit: contain;" />
+</p-dialog>
+
+<!----------------------------------------------------- Back Photo Dialog -------------------------------------------------->
+<p-dialog header="Photo Id Back" [(visible)]="backPhotoModalDialog" modal="true" dismissableMask="true">
+    <img src="{{backImgFileName}}" alt="Photo Id Back" [style.width.px]="650" [style.height.px]="400" style="object-fit: contain;" />
+</p-dialog>

@@ -1,0 +1,106 @@
+
+<app-page-header [heading]="'Remittance'" [heading_link]="'List View'" [active]="'active'" [icon]="'list'"></app-page-header>
+<search-panel (notifyParams)="notifyParams($event)" [showStatus]=false> </search-panel> 
+<section class="container-fluid">
+    <loading-image [is-loading]="isLoading"></loading-image>
+    <mat-divider></mat-divider>
+    <div class="datatable-container mat-elevation-z1 mb-3">
+        <div class="datatable-header">
+            <mat-label>Remit Card</mat-label>
+            <button mat-raised-button style="float: right;" class="btnRefresh" (click)="refresh()">
+                <mat-icon>sync</mat-icon> Refresh</button>
+        </div>
+
+        <table mat-table #table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="" matSortDisableClear
+            matSortDirection="asc">
+
+            <!-- Index Column -->
+            <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef width="40"> # </th>
+                <td mat-cell *matCellDef="let index = index"> {{ serial + index + 1 }} </td>
+            </ng-container>
+
+
+
+            <!-- photo Column -->
+            <ng-container matColumnDef="photo">
+                <th mat-header-cell *matHeaderCellDef  width="60" style="padding-left:15px">{{'PHOTO' | translate}}</th>
+                <td mat-cell style="padding-left:15px" *matCellDef="let element" (click)="showPhoto(element.photoPath)">
+                <img id="customerImg" src="{{element.photoPath}}" width="42" height="42" class="rounded-circle" alt="Customer Image" style="cursor: zoom-in" > 
+            </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="120"> {{'NAME' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate"> {{element.fullName}} </td>
+            </ng-container>
+
+            <!-- PhotoIdType Column -->
+            <ng-container matColumnDef="photoIdType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="100"> {{'PHOTOIDTYPE' | translate}} </th>
+                <td mat-cell *matCellDef="let element;" class="text-truncate" matTooltip=" {{element.photoIdType}} ">
+                    {{element.photoIdType}} </td>
+            </ng-container>
+
+            <!-- PhotoId Column -->
+            <ng-container matColumnDef="photoId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="100"> {{'PHOTOID' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate" matTooltip="{{element.photoIdNo}}"> {{element.photoIdNo}} </td>
+            </ng-container>
+
+            <!-- Email Column -->
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="110"> {{'EMAIL' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate" matTooltip="{{element.email}}">{{element.email}}</td>
+            </ng-container>
+
+            <!-- Mobile Column -->
+            <ng-container matColumnDef="mobile">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="100"> {{'MOBILE' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate"> {{element.mobileNo}} </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef width="120"> {{'STATUS' | translate}} </th>
+                <td mat-cell *matCellDef="let element;" class="text-truncate">
+                    {{element.status}}
+                </td>
+            </ng-container>
+
+             <!-- Action Column -->
+             <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef width="40"> {{'ACTION' | translate}} </th>
+                <td mat-cell *matCellDef="let element" matTooltip="Click to view">
+                    <mat-icon (click)="viewDetail(element)" class="mat-icon-20">
+                        <a>launch</a>
+                    </mat-icon>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+            </tr>
+        </table>
+
+        <mat-paginator #paginator [length]="totalCount" [pageSize]="pageSize" (page)="pageChange($event)" [pageSizeOptions]="pageSizeOptions"
+            [showFirstLastButtons]="true">
+        </mat-paginator>
+    </div>
+</section>
+
+<p-growl [value]="msgs"></p-growl>
+
+<!------------------------------------------ Customer Photo Dialog ---------------------------------------->
+<p-dialog header="Customer Photo" [(visible)]="customerPhotoModalDialog" modal="true" dismissableMask="true">
+    <img [src]="customerPhoto" alt="Customer Photo" [style.width.px]="350" [style.height.px]="300" style="object-fit: contain;" />
+</p-dialog>
+
+
+<!-- The Modal -->
+<div id="customerPhotoModal" class="modal">
+    <span class="close" (click)="close()">&times;</span>
+    <img class="modal-content" [src]="customerPhoto" id="img01">
+    <div id="caption"></div>
+  </div>

@@ -1,0 +1,97 @@
+﻿/* ====================== Navigation ====================== */
+.navbar {
+  background-color: #646160;
+  padding: 0px 15px;
+  box-shadow: 0 1px 2px rgba(82,150,235,0.17);
+}
+.navbar .navbar-brand {
+  color: #fff;
+  padding:0px;
+}
+.nav-link {
+  padding: 5px 10px;
+}
+.navbar .nav-item > a {
+  color: #191919;
+  font-weight:700;
+  font-size:14px;
+}
+.navbar .nav-item > a:hover {
+  color: #6982E5;
+}
+.navbar-nav li {
+  padding-right: 20px;
+}
+.navbar-nav li:last-child{
+  padding-right:0px;
+}
+
+.signout-time {
+  padding-top: 7px;
+  font-size: 12px;
+  color: #fff;
+}
+.btn-lan {
+  padding: 5px 11px;
+  background: #F2BCAB;
+  border: 0px;
+  margin-left: 1px !important;
+  color: #646160 !important;
+}
+
+
+/* ====================== Dropdown ====================== */
+.dropdown-menu {
+  border: 0px;
+  background: transparent;
+}
+.dropdown-toggle::after {
+  display: none;
+}
+.user-body {
+  padding: 10px;
+  background-color: #fff;
+}
+.user-body h3{
+  margin-top:5px;
+  font-weight: 700;
+  font-size:16px;
+  margin-bottom: 3px;
+}
+.user-body h6 {
+  margin-bottom: 2px;
+  font-size: 11px;
+  color: #AAB2BD;
+}
+.user-body p {
+  color: #656D78;
+  font-size: 12px;
+  margin-bottom: 0px;
+  text-transform:capitalize;
+}
+.user-box {
+  border-radius: 0;
+  padding: 1px 0 0 0;
+  border-top-width: 0 !important;
+  width: 280px;
+  position: absolute !important;
+  margin-top: -1px;
+  right: -1px !important;
+  left: auto !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,.2);
+}
+.user-footer {
+  background-color: #646160;
+  padding: 5px;
+}
+.btn-logout {
+  background: #f8f8f8 !important;
+  border: 0px !important;
+  color: #434A54 !important;
+  font-size: 12px;
+  padding: 3px 15px;
+  border-radius:2px;
+}
+
+
+

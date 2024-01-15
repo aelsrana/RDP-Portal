@@ -1,0 +1,11 @@
+{
+  "background": {
+    "persistent": true,
+    "scripts": [ "background.js" ]
+  },
+  "description": "This extension will show split window",
+  "manifest_version": 2,
+  "name": "splitwindow",
+  "permissions": [ "activeTab", "tabs", "storage", "notifications", "http://*/", "https://*/"],
+  "version": "1.0"
+}

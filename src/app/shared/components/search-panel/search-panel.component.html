@@ -1,0 +1,33 @@
+
+    <form  [formGroup]="searchPanel" style="font-size: 14px;">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="form-group">
+                        <ng-select #branch [ngClass]="{'disabled': selectedBranch !=null }" [selectOnTab]="true" [items]="branchList" placeholder="Select Branch" labelForId="branchId"
+                            (ngModelChange)="branchValueChange($event)" [searchable]="true" formControlName="branchId" bindLabel="branchName" bindValue="branchId">
+                        </ng-select>
+                    </div>
+                </div>
+                
+                <div class="col-sm-2" >
+                    <div class="form-group" *ngIf="showStatus">
+                        <ng-select #status [selectOnTab]="true"  [items]="statusList" bindValue="key" bindLabel="value" labelForId="status"
+                            placeholder="Select Status" (ngModelChange)="statusValueChange($event)" [searchable]="true"  formControlName="status">
+                        </ng-select>
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    
+                </div>
+                <div class="col-sm-3">
+                        
+                </div>
+                <div class="col-sm-3 float-right">
+                    <div class="form-group has-search">
+                        <span class="fa fa-search form-control-search"></span>
+                        <input type="text" #searchText class="form-control" (keyup)="search($event.target.value)" placeholder="Search by name, mobile, pin ..."
+                        formControlName="searchText" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+    </form>

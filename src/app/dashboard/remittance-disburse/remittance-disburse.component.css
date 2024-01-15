@@ -1,0 +1,69 @@
+.datatable-container th:last-child{
+    text-align: right;
+  }
+
+  .datatable-container td:last-child{
+    text-align: right;
+  }
+  
+  .mat-card {
+    padding: 10px;
+  }
+
+
+
+  .search-input:focus {
+    border-color: #191919;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  }
+
+  
+.has-float-label .form-control:placeholder-shown:not(:focus) + * {
+  top: 12px;
+}
+
+:host >>> .ui-growl {
+  z-index: 1102 !important;
+  right: 15px !important;
+}
+:host >>> .ui-growl-item-container {
+  margin-top: 20px;
+  border-radius: 0px;
+  box-shadow: none;
+}
+:host >>> .ui-growl-item {
+  padding: 10px;
+}
+:host >>> .ui-growl-icon-close {
+  top:10px;
+  right: 10px;
+}
+:host >>> .ui-growl-image {
+  top: 10px;
+  left: 10px;
+}
+tr.mat-header-row {
+    height:40px;
+}
+.datatable-header {
+    min-height: 40px;
+    padding: 10px 22px 0 20px;
+}
+
+/* :host .breadcrumb {
+  float: right;
+  font-size: 12px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  list-style: none;
+  border-radius: 2px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: .5rem 1rem !important;
+  background-color: #F0F0F7 !important;
+  margin-top: -24px;
+  margin-right: -15px;
+} */

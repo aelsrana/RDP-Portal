@@ -1,0 +1,67 @@
+﻿<nav class="navbar navbar-expand-lg fixed-top">
+    <a class="navbar-brand" href="Javascript:void(0)" [routerLink]="['/']">
+        <div class="pull-left logo-lg" id="logo" style="font-style: oblique">
+            <!--<img src="/assets/images/agrani_doer_logo_hor_all_white.svg" style="width: 184px" alt="Logo">-->
+            <strong>রেমিটেন্স প্লাটফর্ম</strong> <!-- {{'Remittance Disbursement Platform' | translate}} -->
+        </div>
+    </a>
+    <button class="navbar-toggler" type="button" (click)="toggleSidebar()">
+        <!-- <span class="navbar-toggler-icon"></span> -->
+        <i class="fa fa-bars text-muted" aria-hidden="true"></i>
+    </button>
+    <div class="collapse navbar-collapse">
+        <ul class="navbar-nav ml-auto">
+            <li class="signout-time">
+                <!-- Menu toggle button -->
+                {{'You will be signed out in' | translate}} <span id="spanTimeLeft"></span>s
+            </li>
+            <!--<li class="nav-item dropdown" ngbDropdown>
+        <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
+            <i class="fa fa-language"></i> {{ 'Language' | translate }} <b class="caret"></b>
+        </a>
+        <div class="dropdown-menu-right" ngbDropdownMenu  style="margin-top: 10px">
+            <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('en')">
+                {{ 'English' | translate }}
+            </a>
+            <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('bn')">
+                {{ 'Bangla' | translate }}
+            </a>
+        </div>
+    </li>-->
+            <li>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a class="btn btn-secondary btn-rdp btn-lan" (click)="changeLang('bn')">{{ 'BN' | translate }}</a>
+                    <a class="btn btn-secondary btn-rdp btn-lan" (click)="changeLang('en')">{{ 'EN' | translate }}</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown" ngbDropdown>
+                <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
+                    <img src="{{userImgFileName}}" class="rounded-circle" alt="" width="20px">
+                </a>
+
+                <ul class="dropdown-menu-right user-box" ngbDropdownMenu>
+                    <li class="user-body">
+
+                        <div class="media">
+                            <img class="mr-3 img-fluid rounded-circle" src="{{userImgFileName}}" alt="User Image" width="64">
+                            <div class="media-body">
+                                <h3>{{userInfo.userName}}</h3>
+                                <h6 class="mt-0">{{userInfo.roleId}}</h6>
+                                <p>{{userInfo.branchName}} </p>
+                            </div>
+                        </div>
+
+                    </li>
+                    <li class="user-footer clearfix">
+                        <div class="pull-right mr-2">
+                            <a class="btn btn-default btn-rdp btn-logout" (click)="onLoggedout()">
+                                {{ 'Sign out' | translate }}
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+
+            </ul>
+        </div>
+</nav>

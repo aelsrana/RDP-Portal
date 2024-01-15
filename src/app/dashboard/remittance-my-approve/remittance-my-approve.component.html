@@ -1,0 +1,126 @@
+<app-page-header [heading]="'Remittance'" [heading_link]="'List View'" [active]="'active'" [icon]="'list'"></app-page-header>
+
+<search-panel (notifyParams)="notifyParams($event)"> </search-panel> 
+<section class="container-fluid">
+    <loading-image [is-loading]="isLoading"></loading-image>
+    <mat-divider></mat-divider>
+    <div class="datatable-container mat-elevation-z1 mb-3">
+        <div class="datatable-header">
+            <mat-label>{{'MY_APPROVAL_LIST' | translate}}</mat-label>
+            <button mat-raised-button style="float: right;" class="btnRefresh" (click)="refresh()"> <mat-icon >sync</mat-icon> {{'REFRESH' | translate}}</button>
+            <button mat-raised-button style="float: right; margin-right: 15px" class="btnUnlock" (click)="unlockNew()"><mat-icon class="mat-icon-20">lock_open</mat-icon> {{'UNLOCK' | translate}}</button>
+    
+        </div>
+
+        <table mat-table #table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="" matSortDisableClear
+            matSortDirection="asc">
+
+            <!-- Select Column -->
+            <ng-container matColumnDef="select">
+                <th mat-header-cell *matHeaderCellDef width="10">
+                    <mat-checkbox labelPosition='before' (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()" [indeterminate]="selection.hasValue() && !isAllSelected()">
+                    </mat-checkbox>
+                </th>
+                <td mat-cell *matCellDef="let row">
+                    <mat-checkbox labelPosition='before' (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null" [checked]="selection.isSelected(row)">
+                    </mat-checkbox>
+                </td>
+            </ng-container>
+
+            <!-- SenderName Column -->
+            <ng-container matColumnDef="senderName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="100" style="padding-left:15px">{{'SENDER_NAME' | translate}}</th>
+                <td mat-cell style="padding-left:15px" *matCellDef="let element" class="text-truncate" matTooltip="{{element.senderName}}">
+                {{element.senderName}} </td>
+            </ng-container>
+
+            <!-- PIN Column -->
+            <ng-container matColumnDef="pin">
+                <th mat-header-cell *matHeaderCellDef width="120"> {{'PIN' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate"> {{element.pin}} </td>
+            </ng-container>
+
+            <!-- Country Column -->
+            <ng-container matColumnDef="senderCountry">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="90"> {{'COUNTRY' | translate}} </th>
+                <td mat-cell *matCellDef="let element;" class="text-truncate" matTooltip=" {{element.senderCountry | uppercase}} ">
+                    {{element.senderCountry | uppercase}} </td>
+            </ng-container>
+
+            <!-- Branch Column -->
+            <!-- <ng-container matColumnDef="branch">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="70"> {{'BRANCH' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate" matTooltip="{{element.branchName}}"> {{element.branchId}} </td>
+            </ng-container> -->
+
+            <!-- RecipientName Column -->
+            <ng-container matColumnDef="recipientName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="110"> {{'RECIPIENT' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate" matTooltip="{{element.recipientName}}">{{element.recipientName}}</td>
+            </ng-container>
+
+            <!-- Mobile Column -->
+            <ng-container matColumnDef="mobile">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="80"> {{'MOBILE' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate"> {{element.recipientMobileNo}} </td>
+            </ng-container>
+
+            <!-- Amount Column -->
+            <ng-container matColumnDef="amount">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="100" class="text-right">{{'PROBABLE_AMOUNT' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="amount-field"  style="padding-right: 15px;"> {{element.amount | number:'1.2-2'}} </td>
+            </ng-container>
+
+            <!-- ActualAmt Column -->
+            <ng-container matColumnDef="actualAmt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="90" class="text-right" >{{'ACTUAL_AMOUNT' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="amount-field" style="padding-right: 15px;"> {{element.actualAmountInBdt | number:'1.2-2'}} </td>
+            </ng-container>
+
+             <!-- ApplicationDate Column -->
+             <ng-container matColumnDef="applicationDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="100">{{'SUBMITTION_DATE' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate" matTooltip="{{element.createdOn}}"> {{element.createdOn | date:'yyyy-MM-dd HH:mm'}} </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef width="100px"> {{'STATUS' | translate}} </th>
+                <td mat-cell *matCellDef="let element;" class="text-truncate">{{element.status}}</td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef width="45" class="text-right"> {{'ACTION' | translate}} </th>
+                <td mat-cell *matCellDef="let element" matTooltip="Click to view" class="text-right">
+                    <button mat-icon-button (click)="viewDetail(element)">
+                        <mat-icon  class="mat-icon-20">launch</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+            </tr>
+        </table>
+
+        <mat-paginator #paginator [length]="totalCount" [pageSize]="pageSize" (page)="pageChange($event)" [pageSizeOptions]="pageSizeOptions"
+            [showFirstLastButtons]="true">
+        </mat-paginator>
+    </div>
+</section>
+<!-- <p-growl [value]="growlMessage"></p-growl> -->
+<p-dialog [(visible)]="showDialog" [modal]="true" [responsive]="true" [width]="500" [minWidth]="200" [minY]="70">
+    <p-header>Warning</p-header>
+    <div class="form-row">
+        <div class="col-md-12" style="padding:0">
+            <div class="form-group rdp-form-group">
+                <p>Please select at least a record for unlock!!</p>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <button class="btn btn-default btn-rdp" type="button" pButton (click)="closeDialog()" label="OK">OK</button>
+    </p-footer>
+</p-dialog>
+<p-growl [value]="msgs"></p-growl>

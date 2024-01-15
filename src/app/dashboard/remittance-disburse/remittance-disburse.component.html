@@ -1,0 +1,117 @@
+<app-page-header [heading]="'Remittance'" [showDashboard]=false [heading_link]="'List View'" [active]="'active'" [icon]="'list'"></app-page-header>
+<search-panel (notifyParams)="notifyParams($event)" [showStatus]=false> </search-panel>
+<section class="container-fluid">
+    <loading-image [is-loading]="isLoading"></loading-image>
+    <mat-divider></mat-divider>
+    <div class="datatable-container mat-elevation-z1 mb-3">
+        <div class="datatable-header">
+            <mat-label>Disburse Remittance</mat-label>
+            <button mat-raised-button style="float: right;" class="btnRefresh" (click)="refresh()">
+                <mat-icon>sync</mat-icon> Refresh
+            </button>
+        </div>
+
+        <table mat-table #table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)" matSortActive="" matSortDisableClear
+               matSortDirection="asc">
+
+            <!-- Index Column -->
+            <ng-container matColumnDef="index">
+                <th mat-header-cell *matHeaderCellDef width="40"> # </th>
+                <td mat-cell *matCellDef="let index = index"> {{ serial + index + 1 }} </td>
+            </ng-container>
+
+            <!-- RecipientName Column -->
+            <ng-container matColumnDef="recipientName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="110"> {{'RECIPIENT' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate" matTooltip="{{element.recipientName}}">{{element.recipientName}}</td>
+            </ng-container>
+
+             <!-- exchangeHouse Column -->
+             <ng-container matColumnDef="exchangeHouse">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="110"> {{'ExchangeHouse' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate" matTooltip="{{element.exHouseName}}">{{element.exHouseName}}</td>
+            </ng-container>
+
+            <!-- Country Column -->
+            <ng-container matColumnDef="senderCountry">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="90"> {{'Country' | translate}} </th>
+                <td mat-cell *matCellDef="let element;" class="text-truncate" matTooltip=" {{element.senderCountry | uppercase}} ">
+                    {{element.senderCountry | uppercase}}
+                </td>
+            </ng-container>
+
+            <!-- ActualAmt Column -->
+            <ng-container matColumnDef="actualAmt">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="100">{{'Amount' | translate}} </th>
+                <td mat-cell *matCellDef="let element"> {{element.actualAmountInBdt | number:'1.2-2'}} </td>
+            </ng-container>
+
+            <!-- PIN Column -->
+            <ng-container matColumnDef="pin">
+                <th mat-header-cell *matHeaderCellDef width="120"> {{'PIN' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate"> {{element.pin}} </td>
+            </ng-container>
+
+            <!-- Mobile Column -->
+            <ng-container matColumnDef="mobile">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="80"> {{'MOBILE' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate"> {{element.recipientMobileNo}} </td>
+            </ng-container>
+
+            <!--NID Column -->
+            <ng-container matColumnDef="photoId">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header width="80"> {{'PhotoId' | translate}} </th>
+                <td mat-cell *matCellDef="let element" class="text-truncate"><button (click)="showPhotoId(element)" class="btn btn-link" style="padding: 0px; text-decoration: underline">{{element.photoId}}</button>  </td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef width="80px"> {{'ACTION' | translate}} </th>
+                <td mat-cell *matCellDef="let element" style="padding: 5px 0px">
+                    <button mat-raised-button color="accent" style="font-weight: 600" (click)="onDisburseClick(element)">
+                         Disburse
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+
+        <mat-paginator #paginator [length]="totalCount" [pageSize]="pageSize" (page)="pageChange($event)" [pageSizeOptions]="pageSizeOptions"
+                       [showFirstLastButtons]="true">
+        </mat-paginator>
+    </div>
+</section>
+
+<p-dialog [(visible)]="showControlNumber" [modal]="true" [responsive]="true" [width]="400" [minWidth]="200" [minY]="70">
+    <p-header>Control Number</p-header>
+    <div class="form-row">
+        <div class="col-md-12" style="padding:0">
+            <div class="form-group rdp-form-group">
+                <h2 class="text-center">Tk. {{actualAmountInBdt | number: '1.2-2'}}</h2>
+                <mat-divider></mat-divider>
+                <h2 class="text-center" style="color: red">{{traceId | slice: 6 }}</h2>
+                <p class="text-center">Write control number on voucher. </p>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <div class="form-row">
+            <div class="col-md-6">
+            </div>
+            <div class="col-md-6">
+                <button class="btn btn-default btn-block btn-rdp" type="button" pButton (click)="close()" label="OK">OK</button>
+            </div>
+        </div>
+    </p-footer>
+</p-dialog>
+
+<p-dialog header="Photo Id Front" [(visible)]="frontPhotoModalDialog" modal="true" dismissableMask="true">
+    <img [src]="photoIdFrontPhoto" alt="Photo Id Front" [style.width.px]="650" [style.height.px]="400" style="object-fit: contain;" />
+</p-dialog>
+
+<p-growl [value]="msgs"> </p-growl>
+
+
+

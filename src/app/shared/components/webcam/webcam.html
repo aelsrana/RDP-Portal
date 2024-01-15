@@ -1,0 +1,25 @@
+﻿<div class="row">
+    <p *ngIf="error" class="errorMessage">{{errorMessage}}</p>
+    <div class="col-md-6">
+        <video [src]="videosrc" [hidden]="error" #video class="cssWebCam" autoplay>
+            <source src="video.mp4" type="video/mp4">
+            <source src="video.ogg" type="video/ogg">
+            <source src="video.webm" type="video/webm">
+            Your browser does not support the video
+        </video>
+    </div>
+    <div class="col-md-6">
+        <div class="uplaod-img" [hidden]="error">
+            <img [src]="output" [hidden]="error || !output" alt="Upload Photo" />
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+        <button (click)="capturePhoto(video)" *ngIf="!error && !output" class="btn btn-default btn-rdp">Capture</button>
+        <button (click)="capturePhoto(video)" *ngIf="!error && output" class="btn btn-default btn-rdp">Re-capture</button>
+    </div>
+    <div class="col-xs-6 col-sm-6 col-md-6 text-center">
+        <button (click)="uploadPhoto()" *ngIf="!error" [disabled]="!output" class="btn btn-default btn-rdp">Done</button>
+    </div>
+</div>

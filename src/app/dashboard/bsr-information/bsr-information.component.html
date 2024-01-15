@@ -1,0 +1,1429 @@
+﻿<div [@routerTransition]>
+    <div [hidden]="hideIFRRequestDiv">
+        <div [hidden]="!showSearch">
+            <app-search-recipient #appSearchRecipient (onBeneficiarySelect)="onBeneficiarySelect($event)" (onBeneficiaryAdd)="onBeneficiaryAdd($event)">
+            </app-search-recipient>
+        </div>
+        <div [hidden]="showSearch">
+            <div class="row mt-1">
+                <div class="col-md-3 ben-card-overlay">
+                    <div class="card" style="height:532px;background: #666666;opacity: .25;padding:0;z-index:101" *ngIf="hideBeneficiaryDiv"> </div>
+                </div>
+                <div class="col-md-3 ben-card-overlay">
+                    <div class="card" style="height:532px;background: #666666;opacity: .25;padding:0;z-index:103;" *ngIf="hideCaptureDiv || beneficiaryFormGroup.invalid || !isBMobileSelected"> </div>
+                </div>
+                <div class="col-md-3 ben-card-overlay">
+                    <div class="card" style="height:532px;background: #666666;opacity: .25;padding:0;z-index:105;" *ngIf="hideSenderDiv || !selectedCapturedPhotoId || beneficiaryFormGroup.invalid || !isBMobileSelected"></div>
+                </div>
+                <div class="col-md-3 ben-card-overlay">
+                    <div class="card" style="height:532px;background: #666666;opacity: .25;padding:0;z-index:107;" *ngIf="hideRemittanceDiv || !selectedSender || !selectedCapturedPhotoId || beneficiaryFormGroup.invalid || !isBMobileSelected"></div>
+                </div>
+            </div>
+            <div class="row mt-1" style="position:absolute;top:50px">
+                <!----------------------------------------------- Beneficiary ----------------------------------------------->
+                <!--<div class="col-md-3 ben-card-overlay" style="position:absolute;" *ngIf="hideBeneficiaryDiv">
+                    <div class="card" style="height:486px;background: #666666;opacity: .25;padding:0;z-index:101"></div>
+                </div>-->
+                <div class="col-md-3" [formGroup]="beneficiaryFormGroup" novalidate>
+                    <!----------------------------------------------- Present Address Dialog ----------------------------------------------->
+                    <!--<p-dialog header="Present Address" [(visible)]="bPresentAddressDialog" modal="true">
+                        <div class="form-row">
+                            <div class="col-md-6" style="padding-left:0">
+                                <div class="form-group rdp-form-group">
+                                    <div class="has-float-label">
+                                        <select class="custom-select rdp-input" formControlName="bDivision" id="bDivision" (change)="bDivisionSelectionChange()">
+                                            <option value=''>Select Division</option>
+                                            <option *ngFor='let divisionList of bDivisionLists' [value]="divisionList.divisionCode">{{divisionList.divisionName}}</option>
+                                        </select>
+                                        <label for="name">Division</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="padding-right:0">
+                                <div class="form-group rdp-form-group">
+                                    <div class="has-float-label">
+                                        <select class="custom-select rdp-input" formControlName="bDistrict" id="bDistrict" (change)="bDistrictSelectionChange()">
+                                            <option value="">Select District</option>
+                                            <option *ngFor='let districtList of bDistrictLists' [value]="districtList.districtCode">{{districtList.districtName}}</option>
+                                        </select>
+                                        <label for="name">District</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-6" style="padding-left:0">
+                                <div class="form-group rdp-form-group">
+                                    <div class="has-float-label">
+                                        <select class="custom-select rdp-input" formControlName="bUpazilla" id="bUpazilla" (change)="bUpazillaSelectionChange()">
+                                            <option value="">Select Upazilla</option>
+                                            <option *ngFor='let upazillaList of bUpazillaLists' [value]="upazillaList.upazillaCode">{{upazillaList.upazillaName}}</option>
+                                        </select>
+                                        <label for="name">Upazilla</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6" style="padding-right:0">
+                                <div class="form-group rdp-form-group">
+                                    <div class="has-float-label">
+                                        <select class="custom-select rdp-input" formControlName="bUnion" id="bUnion">
+                                            <option value="">Select Union</option>
+                                            <option *ngFor='let uniontList of bUnionLists' [value]="uniontList.unionCode">{{uniontList.unionName}}</option>
+                                        </select>
+                                        <label for="name">Union</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12" style="padding:0">
+                                <div class="form-group rdp-form-group">
+                                    <span class="has-float-label">
+                                        <input formControlName="bPostCode" class="form-control rdp-input" id="bPostCode" type="text" autocomplete="off"
+                                               pTooltip="5 digits" tooltipPosition="right" tooltipEvent="focus"
+                                               OnlyNumber="true" minlength="5" maxlength="5" placeholder="Post Code" />
+                                        <label for="bPostCode">Post Code</label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="col-md-12" style="padding:0">
+                                <div class="form-group rdp-form-group">
+                                    <span class="has-float-label">
+                                        <textarea class="form-control rdp-textarea" placeholder="Present Address" rows="2" maxlength="100"
+                                                  pTooltip="max 100 characters" tooltipPosition="right" tooltipEvent="focus"
+                                                  trimmed formControlName="bPresentAddress" id="bPresentAddress"></textarea>
+                                        <label for="bPresentAddress">Present Address</label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </p-dialog>-->
+                    <div style="z-index:100">
+                        <div class="card">
+                            <h5 class="card-header ben-card-header">Beneficiary</h5>
+                            <div class="card-body rdp-card-body ben-card-body">
+                                <div class="ben-man">
+                                    <div class="form-row">
+                                        <div class="col-md-12" style="padding:0">
+                                            <div class="form-group rdp-form-group">
+                                                <span class="has-float-label">
+                                                    <input formControlName="bName" class="form-control rdp-input" id="bName" type="text" autocomplete="off"
+                                                           pTooltip="3 to 35 characters" tooltipPosition="right" tooltipEvent="focus"
+                                                           trimmed validName tabindex="7" minlength="3" maxlength="35" required placeholder="Enter Your Name."
+                                                           [value]="beneficiaryFormGroup.get('bName').value | uppercase" />
+                                                    <label for="bName">Name<span style="color:red">*</span></label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-7" style="padding-left:0">
+                                            <div class="form-group rdp-form-group">
+                                                <span class="has-float-label">
+                                                    <p-calendar class="form-control rdp-input" formControlName="bDateOfBirth" id="bDateOfBirth"
+                                                                showIcon="true" name="date" dateFormat="dd-mm-yy" placeholder="DD-MM-YYYY"
+                                                                [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2018" tabindex="8" required></p-calendar>
+                                                    <label for="bDateOfBirth">Date Of Birth<span style="color:red">*</span></label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-5" style="padding-right:0">
+                                            <div pTooltip="select gender" tooltipPosition="right" class="form-group rdp-form-group pull-right" [ngClass]="{'red-border': beneficiaryFormGroup.get('bGenderType').value == '', 'red-green': beneficiaryFormGroup.get('bGenderType').value != '' }">
+                                                <p-selectButton formControlName="bGenderType" [options]="genderTypes"></p-selectButton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-12" style="padding:0">
+                                            <div class="form-group rdp-form-group">
+                                                <div class="has-float-label" pTooltip="select or add mobile" tooltipPosition="right">
+                                                    <p-table [value]="bMobileList" [scrollable]="true" scrollHeight="101px" selectionMode="single"
+                                                             [(selection)]="selectedBMobile" (onRowSelect)="onBMobileRowSelect($event)" (onRowUnselect)="onBMobileRowUnselect($event)">
+                                                        <ng-template pTemplate="header">
+                                                            <!--<tr [ngClass]="{'red-border': !isBMobileSelected, 'red-green': isBMobileSelected}">-->
+                                                            <!--<span class="pull-left" style="margin:3px 10px 0px 10px;color: #434A54;font-weight:700;font-size: 12px;">Mobile</span>-->
+                                                            <!--</tr>-->
+                                                        </ng-template>
+                                                        <ng-template pTemplate="body" let-mobile>
+                                                            <tr [pSelectableRow]="mobile">
+                                                                <td>
+                                                                    <span>{{mobile.mobileNo}}</span>
+                                                                    <span style="color:green;position:relative;top:4px;font-style:italic" class="pull-right" *ngIf="mobile.isMobileNoVerified == 'Yes'">Verified</span>
+                                                                    <span style="color:red;position:relative;top:4px;font-style:italic" class="pull-right" *ngIf="mobile.isMobileNoVerified == 'No'">Not verified</span>
+                                                                </td>
+                                                            </tr>
+                                                        </ng-template>
+                                                    </p-table>
+                                                    <label>
+                                                        <span style="position: absolute; right: 58px;top: 7px;height: 25px;width: 0;display: block;" [ngClass]="{'red-border': !isBMobileSelected, 'red-green': isBMobileSelected}"></span>
+                                                        Mobile<span style="color:red">*</span>
+                                                    </label>
+                                                    <button class="btn btn-default btn-add pull-right" type="button" (click)="addNewMobileNo()">ADD</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ben-opt">
+                                    <div class="form-row">
+                                        <div class="col-md-12" style="padding:0">
+                                            <div class="form-group rdp-form-group">
+                                                <button class="btn btn-default btn-block btn-rdp btn-ben-social" (click)="scanFingerButtonClick()" tabindex="13">
+                                                    Scan Finger <span *ngIf="fingerScanFlag"><i class="fa fa-check" style="color:white;position:absolute;top:7px;right:20px"> </i></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-12" style="padding:0">
+                                            <div class="form-group rdp-form-group">
+                                                <button class="btn btn-default btn-block btn-rdp btn-ben-social" (click)="addBeneSocialMediaInfo()" tabindex="13">
+                                                    Social Media <span *ngIf="bSocialMediaFlag"><i class="fa fa-check" style="color:white;position:absolute;top:7px;right:20px"> </i></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--<div class="form-row">
+                                        <div class="col-md-12" style="padding:0">
+                                            <div class="form-group rdp-form-group">
+                                                <span class="has-float-label">
+                                                    <button class="btn btn-default btn-block btn-rdp" tabindex="14"
+                                                            id="bPresentAddressButton" (click)="bPresentAddressDialog=true;">
+                                                        {{"Present Address"}}
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>-->
+                                    <div class="form-row">
+                                        <div class="col-md-6" style="padding-left:0">
+                                            <div class="form-group rdp-form-group">
+                                                <div class="has-float-label">
+                                                    <select class="custom-select rdp-input" formControlName="bDivision" id="bDivision" (change)="bDivisionSelectionChange()">
+                                                        <option value=''>
+                                                            Select Division
+                                                        </option>
+                                                        <option *ngFor='let divisionList of bDivisionLists' [value]="divisionList.divisionCode">{{divisionList.divisionName}}</option>
+                                                    </select>
+                                                    <label for="name">Division</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="padding-right:0">
+                                            <div class="form-group rdp-form-group">
+                                                <div class="has-float-label">
+                                                    <select class="custom-select rdp-input" formControlName="bDistrict" id="bDistrict" (change)="bDistrictSelectionChange()">
+                                                        <option value="">Select District</option>
+                                                        <option *ngFor='let districtList of bDistrictLists' [value]="districtList.districtCode">{{districtList.districtName}}</option>
+                                                    </select>
+                                                    <label for="name">District</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-6" style="padding-left:0">
+                                            <div class="form-group rdp-form-group">
+                                                <div class="has-float-label">
+                                                    <select class="custom-select rdp-input" formControlName="bUpazilla" id="bUpazilla" (change)="bUpazillaSelectionChange()">
+                                                        <option value="">Select Upazilla</option>
+                                                        <option *ngFor='let upazillaList of bUpazillaLists' [value]="upazillaList.upazillaCode">{{upazillaList.upazillaName}}</option>
+                                                    </select>
+                                                    <label for="name">Upazilla</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6" style="padding-right:0">
+                                            <div class="form-group rdp-form-group">
+                                                <div class="has-float-label">
+                                                    <select class="custom-select rdp-input" formControlName="bUnion" id="bUnion">
+                                                        <option value="">Select Union</option>
+                                                        <option *ngFor='let uniontList of bUnionLists' [value]="uniontList.unionCode">{{uniontList.unionName}}</option>
+                                                    </select>
+                                                    <label for="name">Union</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-12" style="padding:0">
+                                            <div class="form-group rdp-form-group">
+                                                <span class="has-float-label">
+                                                    <textarea class="form-control rdp-textarea" placeholder="Present Address" rows="2" maxlength="100"
+                                                              pTooltip="max 100 characters" tooltipPosition="right" tooltipEvent="focus"
+                                                              trimmed formControlName="bPresentAddress" id="bPresentAddress"></textarea>
+                                                    <label for="bPresentAddress">Present Address</label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="col-md-12" style="padding:0">
+                                            <div class="form-group rdp-form-group">
+                                                <span class="has-float-label">
+                                                    <textarea class="form-control rdp-textarea" placeholder="Permanent Address" rows="2" maxlength="100"
+                                                              pTooltip="max 100 characters" tooltipPosition="right" tooltipEvent="focus"
+                                                              trimmed formControlName="bPermanentAddress" id="bPermanentAddress" tabindex="15"></textarea>
+                                                    <label for="bPermanentAddress">Permanent Address</label>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!----------------------------------------------- Capture Photo ----------------------------------------------->
+                <div class="col-md-3" style="z-index:102">
+                    <!--<div class="col-md-12 ben-card-overlay" style="position:absolute;" *ngIf="hideCaptureDiv || beneficiaryFormGroup.invalid || !isBMobileSelected">
+                        <div class="card" style="height:486px;background: #666666;opacity: .25;padding:0;z-index:103;margin-left: -14px;margin-right: 16px"></div>
+                    </div>-->
+                    <div class="card">
+                        <div class="card-header cap-card-header" style="padding:0">
+                            <h5 class="pull-left">Capture Photo</h5>
+                            <button class="btn btn-default btn-rdp btn-add-image pull-right" (click)="onPhotoAddClick()" *ngIf="showPhotoAddBtn" [disabled]="beneficiaryFormGroup.invalid || !isBMobileSelected ">+</button>
+                            <button class="btn btn-default btn-rdp btn-add-image pull-right" style="margin-right:10px;font-size:14px;text-decoration:underline" *ngIf="showPhotoAddBtn" [disabled]="isSelectedIdNotNID" (click)="onECVerifyClick()">EC Verify</button>
+                        </div>
+                        <div class="card-body rdp-card-body cap-card-body">
+                            <div class="capture-photo" *ngIf="showPhotoDiv">
+                                <div class="form-row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-5 text-center">
+                                        <div class="form-group rdp-form-group">
+                                            <img src="/assets/images/user_photo.png" alt="" *ngIf="!userPhotoCapture" />
+                                            <div class="has-float-label cap-float-label" *ngIf="userPhotoCapture">
+                                                <img [src]="userPhoto" style="width:100px;height:80px;object-fit:contain; cursor:zoom-in;" (click)="customerPhotoModalDialog=true" />
+                                                <label for="name">User Photo</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4" *ngIf="showUserPhotoUploadBtn">
+                                        <div class="form-group rdp-form-group">
+                                            <div class="btn-group" role="group" aria-label="">
+                                                <ul class="list-unstyled">
+                                                    <li><button type="button" class="btn btn-default btn-rdp btn-camera" (click)="userPhotoDialog = true"><i class="fa fa-fw fa-camera"></i></button></li>
+                                                    <li>
+                                                        <p-fileUpload customUpload="true" auto="true" chooseLabel=" " accept="image/*" maxFileSize="1000000"
+                                                                      (onSelect)="onPhotoSelect($event)" (uploadHandler)="userPhotoUploadHandler($event)">
+                                                            <ng-template pTemplate="toolbar">
+                                                            </ng-template>
+                                                            <ng-template let-file pTemplate="file">
+                                                            </ng-template>
+                                                            <ng-template pTemplate="content">
+                                                            </ng-template>
+                                                        </p-fileUpload>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="!viewSeletedPhotoIdDiv">
+                                    <div class="col-md-6" style="padding-left:0">
+                                        <div class="form-group rdp-form-group">
+                                            <div class="has-float-label">
+                                                <select class="custom-select rdp-input" [disabled]="isPhotoIdInEditMode || isNewPhotoIdAvailable" required [(ngModel)]='selectedPhotoId' (ngModelChange)='onPhotoIdSelectedChanges($event)'>
+                                                    <option *ngFor='let photoIdType of photoIdTypes' [value]="photoIdType.value">{{photoIdType.text}}</option>
+                                                </select>
+                                                <label for="name">Photo ID Type<span style="color:red">*</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" style="padding-right:0">
+                                        <div class="form-group rdp-form-group">
+                                            <div class="has-float-label">
+                                                <input class="form-control rdp-input" [disabled]="isPhotoIdInEditMode || isNewPhotoIdAvailable" id="photoIdNo" required [(ngModel)]="photoIdNo" name="photoIdNo"
+                                                       pTooltip="{{photoIdNoTooltip}}" tooltipPosition="right" tooltipEvent="focus"
+                                                       #photoIdNoNgModel="ngModel" type="text" pattern="{{photoIdPattern}}"
+                                                       placeholder="Enter Photo ID No." maxlength="{{photoIdMaxLength}}" />
+                                                <label for="photoIdNo">Photo ID No.<span style="color:red">*</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="viewSeletedPhotoIdDiv">
+                                    <div class="col-md-12" style="padding:0">
+                                        <div class="form-group rdp-form-group">
+                                            <div class="has-float-label" pTooltip="select photo id" tooltipPosition="right">
+                                                <p-table class="sender-table" [value]="photoIdList" [scrollable]="true" scrollHeight="101px" selectionMode="single"
+                                                         [(selection)]="selectedCapturedPhotoId" (onRowSelect)="onPhotoIdRowSelect($event)" (onRowUnselect)="onPhotoIdRowUnselect()">
+                                                    <ng-template pTemplate="header">
+                                                    </ng-template>
+                                                    <ng-template pTemplate="body" let-photoId>
+                                                        <tr [pSelectableRow]="photoId">
+                                                            <td>
+                                                                <span>{{photoId.photoIdNo}}</span>
+                                                                <span (click)="selectedPhotoIdEdit(photoId)" style="float:right;cursor:pointer;position:relative;top:4px;"><i class="fa fa-edit"></i></span>
+                                                                <span style="margin-right:10px;color:red;position:relative;top:4px;font-style:italic" *ngIf="(photoId.photoIdType=='SmartNID'||photoId.photoIdType=='NID') && !isNIDECVerified" class="pull-right">Not verified</span>
+                                                                <span style="margin-right:10px;color:green;position:relative;top:4px;font-style:italic" *ngIf="(photoId.photoIdType=='SmartNID'||photoId.photoIdType=='NID') && isNIDECVerified" class="pull-right">Verified</span>
+                                                                <span style="margin-left:30px;font-style:italic;position:relative;">{{getPhotoIdText(photoId.photoIdType)}}</span>
+                                                            </td>
+                                                        </tr>
+                                                    </ng-template>
+                                                </p-table>
+                                                <label>
+                                                    <span style="position: absolute; right: 68px;top: 7px;height: 25px;width: 0;display: block;" [ngClass]="{'red-border': !isPhotoIdSelected, 'red-green': isPhotoIdSelected}"></span>
+                                                    Photo Id<span style="color:red">*</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8 pull-left pl-0">
+                                        <div class="form-group rdp-form-group">
+                                            <!--<img src="/assets/images/photo_id_front.png" alt="Alternate Text" class="img-fluid"  *ngIf="!photoIdFrontPhotoCapture"/>-->
+                                            <div class="card" *ngIf="!photoIdFrontPhotoCapture && !photoIdInViewMode">
+                                                <div class="card-body photo-card-body">
+                                                    <b>{{seletedPhotoIdText}} Front</b>
+                                                </div>
+                                            </div>
+                                            <div class="has-float-label cap-float-label" *ngIf="photoIdFrontPhotoCapture">
+                                                <img [src]="photoIdFrontPhoto" style="width:185px;height:115px;object-fit:contain; cursor:zoom-in;" (click)="frontPhotoModalDialog=true" />
+                                                <label for="name">Photo Id Front</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 pull-right pr-0" *ngIf="showPhotoIdCaptureUploadBtn">
+                                        <div class="form-group rdp-form-group">
+                                            <div class="btn-group" role="group" aria-label="">
+                                                <ul class="list-unstyled">
+                                                    <li><button type="button" class="btn btn-default btn-rdp btn-camera" (click)="photoIdFrontDialog = true"><i class="fa fa-fw fa-camera"></i></button></li>
+                                                    <li>
+                                                        <p-fileUpload customUpload="true" auto="true" chooseLabel=" " accept="image/*" maxFileSize="1000000"
+                                                                      (onSelect)="onPhotoSelect($event)" (uploadHandler)="photoIdFrontUploadHandler($event)">
+                                                            <ng-template pTemplate="toolbar">
+                                                            </ng-template>
+                                                            <ng-template let-file pTemplate="file">
+                                                            </ng-template>
+                                                            <ng-template pTemplate="content">
+                                                            </ng-template>
+                                                        </p-fileUpload>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-8 pull-left pl-0">
+                                        <div class="form-group rdp-form-group">
+                                            <!--<img src="/assets/images/photo_id_back.png" alt="Alternate Text" class="img-fluid" *ngIf="!photoIdBackPhotoCapture" />-->
+                                            <div class="card" *ngIf="!photoIdBackPhotoCapture && !photoIdInViewMode">
+                                                <div class="card-body photo-card-body">
+                                                    <b>{{seletedPhotoIdText}} Back</b>
+                                                </div>
+                                            </div>
+                                            <div class="has-float-label cap-float-label" *ngIf="photoIdBackPhotoCapture">
+                                                <img [src]="photoIdBackPhoto" style="width:185px;height:115px;object-fit:contain; cursor:zoom-in;" (click)="backPhotoModalDialog=true" />
+                                                <label for="name">Photo Id Back</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 pull-right pr-0" *ngIf="showPhotoIdCaptureUploadBtn">
+                                        <div class="form-group rdp-form-group">
+                                            <div class="btn-group" role="group" aria-label="">
+                                                <ul class="list-unstyled">
+                                                    <li><button type="button" class="btn btn-default btn-rdp btn-camera" (click)="photoIdBackDialog = true"><i class="fa fa-fw fa-camera"></i></button></li>
+                                                    <li>
+                                                        <p-fileUpload customUpload="true" auto="true" chooseLabel=" " accept="image/*" maxFileSize="1000000"
+                                                                      (onSelect)="onPhotoSelect($event)" (uploadHandler)="photoIdBackUploadHandler($event)">
+                                                            <ng-template pTemplate="toolbar">
+                                                            </ng-template>
+                                                            <ng-template let-file pTemplate="file">
+                                                            </ng-template>
+                                                            <ng-template pTemplate="content">
+                                                            </ng-template>
+                                                        </p-fileUpload>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row" *ngIf="showPhotoDivClrDoneClearBtn">
+                                    <div class="col-md-4">
+                                        <div class="form-group rdp-form-group">
+                                            <a class="btn btn-default btn-rdp btn-grid btn-grid-border" (click)="photoCaptureCancelOnClick()">Cancel</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="form-group rdp-form-group pull-right">
+                                            <ul class="list-inline" style="margin-bottom:0">
+                                                <li class="list-inline-item"><a class="btn btn-default btn-rdp btn-grid btn-grid-tranparent" (click)="photoCaptureClearOnClick()">Clear</a></li>
+                                                <li class="list-inline-item">
+                                                    <button class="btn btn-default btn-rdp btn-grid" (click)="photoCaptureDoneOnClick()"
+                                                            [disabled]="userPhoto == '' || photoIdBackPhoto == '' || photoIdFrontPhoto == '' || selectedPhotoId == '' || photoIdNoNgModel?.invalid">
+                                                        Done
+                                                    </button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!----------------------------------------------- Sender ----------------------------------------------->
+                <div class="col-md-3" style="z-index:104">
+                    <!--<div class="col-md-12 ben-card-overlay" style="position:absolute;" *ngIf="hideSenderDiv || !selectedCapturedPhotoId || beneficiaryFormGroup.invalid || !isBMobileSelected">
+                        <div class="card" style="height:486px;background: #666666;opacity: .25;padding:0;z-index:105;margin-left: -14px;margin-right: 16px"></div>
+                    </div>-->
+                    <div class="card">
+                        <div class="card-header sender-card-header" style="padding:0">
+                            <h5 class="pull-left">Sender</h5>
+                            <button class="btn btn-default btn-rdp btn-add-sender pull-right" (click)="addNewSender()" *ngIf="showSenderAddBtn">+</button>  <!--[disabled]="selectedSender"-->
+                        </div>
+                        <div class="card-body rdp-card-body sender-card-body">
+                            <form [formGroup]="senderFormGroup" novalidate>
+                                <div *ngIf="showSenderDiv">
+                                    <div class="sender-men" *ngIf="showSenderMendatoryDiv">
+                                        <div class="form-row" style="height:116px;" *ngIf="showSenderList">
+                                            <div class="col-md-12" style="padding:0">
+                                                <div class="form-group rdp-form-group">
+                                                    <div class="has-float-label" pTooltip="select sender" tooltipPosition="right">
+                                                        <p-table class="sender-table" [value]="senderList" [scrollable]="true" scrollHeight="101px" selectionMode="single"
+                                                                 [(selection)]="selectedSender" (onRowSelect)="onSNameRowSelect($event)" (onRowUnselect)="onSNameRowUnselect($event)">
+                                                            <ng-template pTemplate="header">
+                                                            </ng-template>
+                                                            <ng-template pTemplate="body" let-sender>
+                                                                <tr [pSelectableRow]="sender">
+                                                                    <td>
+                                                                        <span>{{sender.fullName}}</span>
+                                                                        <span (click)="selectedSenderEdit(sender)" style="float:right;cursor:pointer;position:relative;top:4px;"><i class="fa fa-edit"></i></span>
+                                                                        <span style="margin-right:5px;font-style:italic;float:right;position:relative;top:4px;">{{sender.residenceCountry}}</span>
+                                                                    </td>
+                                                                </tr>
+                                                            </ng-template>
+                                                        </p-table>
+                                                        <label>
+                                                            <span style="position: absolute; right: 53px;top: 6px;height: 25px;width: 0;display: block;" [ngClass]="{'red-border': !isSenderSelected, 'red-green': isSenderSelected}"></span>
+                                                            Name<span style="color:red">*</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row" *ngIf="showInputSenderName">
+                                            <div class="col-md-12" style="padding:0">
+                                                <div class="form-group rdp-form-group">
+                                                    <span class="has-float-label">
+                                                        <input class="form-control rdp-input" formControlName="sName" id="sName" type="text" placeholder="Enter Sender Name"
+                                                               pTooltip="3 to 35 characters" tooltipPosition="right" tooltipEvent="focus" autocomplete="off"
+                                                               [value]="senderFormGroup.get('sName').value | uppercase"
+                                                               trimmed validName minlength="3" maxlength="35" required />
+                                                        <label for="sName">Sender Name<span style="color:red">*</span></label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row" *ngIf="showInputSenderControls">
+                                            <div class="col-md-6" style="padding-left:0;">
+                                                <div class="form-group rdp-form-group" style="margin-bottom:0px">
+                                                    <div class="has-float-label">
+                                                        <select class="custom-select rdp-input" formControlName="sCountry" id="sCountry" required>
+                                                            <option value="">Choose...</option>
+                                                            <option value="American Samoa">American Samoa</option>
+                                                            <option value="Australia">Australia</option>
+                                                            <option value="Austria">Austria</option>
+                                                            <option value="Angola">Angola</option>
+                                                            <option value="Antigua and Barbuda"> Antigua and Barbuda</option>
+                                                            <option value="Bermuda">Bermuda</option>
+                                                            <option value="Belgium">Belgium</option>
+                                                            <option value="Brazil">Brazil</option>
+                                                            <option value="Maldivs">Maldivs</option>
+                                                            <option value="Germany">Germany</option>
+                                                            <option value="South Korea"> South Korea</option>
+                                                        </select>
+                                                        <label for="sCountry">Country<span style="color:red">*</span></label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="padding-right:0;">
+                                                <div class="form-group rdp-form-group" style="margin-bottom:0px;">
+                                                    <div class="has-float-label">
+                                                        <select class="custom-select rdp-input" formControlName="sCity" id="sCity">
+                                                            <option value="">Choose...</option>
+                                                            <option value="ANGULA">ANGULA</option>
+                                                            <option value="AUSTRIA">AUSTRIA</option>
+                                                            <option value="CITY">CITY</option>
+                                                            <option value="SYDNEY">SYDNEY</option>
+                                                            <option value="BELGIUM CITY">BELGIUM CITY</option>
+                                                            <option value="BERMUDA CITY">BERMUDA CITY</option>
+                                                            <option value="BRAZILCITY">BRAZILCITY</option>
+                                                        </select>
+                                                        <label for="sCity">City</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="sender-opt" *ngIf="showInputSenderControls">
+                                        <div class="form-row">
+                                            <div class="col-md-7" style="padding:0">
+                                                <div class="form-group rdp-form-group">
+                                                    <div class="has-float-label">
+                                                        <input class="form-control rdp-input" formControlName="sMobile" id="sMobile" type="text" placeholder="Enter Sender Mobile No."
+                                                               OnlyNumber="true" />
+                                                        <label for="sMobile">Overseas Mobile</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-5" style="padding:0">
+                                                <div class="form-group rdp-form-group pull-right">
+                                                    <p-selectButton [options]="genderTypes" formControlName="sGenderType" class="sender-gender"></p-selectButton>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6" style="padding-left:0">
+                                                <div class="form-group rdp-form-group">
+                                                    <div class="has-float-label">
+                                                        <select class="custom-select rdp-input" formControlName="sDivision" id="sDivision" (change)="sDivisionSelectionChange()">
+                                                            <option value="">Select Division</option>
+                                                            <option *ngFor='let divisionList of sDivisionLists' [value]="divisionList.divisionCode">{{divisionList.divisionName}}</option>
+                                                        </select>
+                                                        <label for="sDivision">Division</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="padding-right:0">
+                                                <div class="form-group rdp-form-group">
+                                                    <div class="has-float-label">
+                                                        <select class="custom-select rdp-input" formControlName="sDistrict" id="sDistrict" (change)="sDistrictSelectionChange()">
+                                                            <option value="">Select District</option>
+                                                            <option *ngFor='let districtList of sDistrictLists' [value]="districtList.districtCode">{{districtList.districtName}}</option>
+                                                        </select>
+                                                        <label for="sDistrict">District</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-6" style="padding-left:0">
+                                                <div class="form-group rdp-form-group">
+                                                    <div class="has-float-label">
+                                                        <select class="custom-select rdp-input" formControlName="sUpazilla" id="sUpazilla" (change)="sUpazillaSelectionChange()">
+                                                            <option value="">Select Upazilla</option>
+                                                            <option *ngFor='let upazillaList of sUpazillaLists' [value]="upazillaList.upazillaCode">{{upazillaList.upazillaName}}</option>
+                                                        </select>
+                                                        <label for="sUpazilla">Upazilla</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" style="padding-right:0">
+                                                <div class="form-group rdp-form-group">
+                                                    <div class="has-float-label">
+                                                        <select class="custom-select rdp-input" formControlName="sUnion" id="sUnion">
+                                                            <option value="">Select Union</option>
+                                                            <option *ngFor='let uniontList of sUnionLists' [value]="uniontList.unionCode">{{uniontList.unionName}}</option>
+                                                        </select>
+                                                        <label for="sUnion">Union</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-12" style="padding:0">
+                                                <div class="form-group rdp-form-group">
+                                                    <button class="btn btn-default btn-block btn-rdp btn-sen-social" (click)="addSenderSocialMediaInfo()">
+                                                        Social Media <span *ngIf="sSocialMediaFlag"><i class="fa fa-check" style="color:white;position:absolute;top:7px;right:20px"> </i></span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-md-12" style="padding:0">
+                                                <div class="form-group rdp-form-group">
+                                                    <span class="has-float-label">
+                                                        <textarea class="form-control rdp-textarea" formControlName="sPermanentAddress" id="sPermanentAddress"
+                                                                  placeholder="Permanent Address" rows="2" maxlength="100" pTooltip="max 100 characters"
+                                                                  tooltipPosition="right" tooltipEvent="focus" trimmed></textarea>
+                                                        <label for="sPermanentAddress">Permanent Address</label>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row" *ngIf="!isDisableSenderControl">
+                                            <div class="col-md-4" style="padding-left:0px">
+                                                <div class="form-group rdp-form-group">
+                                                    <a class="btn btn-default btn-rdp btn-grid btn-grid-border" (click)="senderCancelOnClick()">Cancel</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8" style="padding-right:0px">
+                                                <div class="form-group rdp-form-group pull-right">
+                                                    <ul class="list-inline" style="margin-bottom:0">
+                                                        <li class="list-inline-item"><a class="btn btn-default btn-rdp btn-grid btn-grid-tranparent" (click)="senderClearOnClick()">Clear</a></li>
+                                                        <li class="list-inline-item">
+                                                            <button class="btn btn-default btn-rdp btn-grid" (click)="senderDoneOnClick()"
+                                                                    [disabled]="senderFormGroup.get('sName').value==''||senderFormGroup.get('sCountry').value==''">
+                                                                Done
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!----------------------------------------------- Remittance ----------------------------------------------->
+                <div class="col-md-3" style="z-index:106">
+                    <!--<div class="col-md-12 ben-card-overlay" style="position:absolute;" *ngIf="hideRemittanceDiv || !selectedSender || !selectedCapturedPhotoId || beneficiaryFormGroup.invalid || !isBMobileSelected">
+                        <div class="card" style="height:486px;background: #666666;opacity: .25;padding:0;z-index:107; margin-left: -14px;margin-right: 16px"></div>
+                    </div>-->
+                    <div class="card">
+                        <h5 class="card-header rem-card-header">Remittance</h5>
+                        <div class="card-body rdp-card-body rem-card-body">
+                            <div class="remitance-info">
+                                <div class="form-row">
+                                    <div class="col-md-12" style="padding:0">
+                                        <div class="form-group rdp-form-group">
+                                            <span class="has-float-label">
+                                                <input class="form-control rdp-input" id="pinNumber" type="text" placeholder="Pin Number" [(ngModel)]="pinNumber"
+                                                       (input)="onPinNumberChange($event.target.value)"
+                                                       trimmed required maxlength="35" pattern="[a-zA-Z0-9~!#$%^&()_+/,.<>?= -]{1,35}" />
+                                                <label for="pinNumber">Pin Number<span style="color:red">*</span></label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12" style="padding:0">
+                                        <div class="form-group rdp-form-group">
+                                            <div class="has-float-label">
+                                                <select class="custom-select rdp-input" id="" required [(ngModel)]='selectedexchangeHouse' (change)="ExchangeHouseSelectionChange()">
+                                                    <option value="" selected>Choose</option>
+                                                    <option *ngFor='let exchangeHouseList of filteredExchangeHouseLists' [value]="exchangeHouseList.oid">{{exchangeHouseList.exHouseName}}</option>
+                                                </select>
+                                                <label for="name">Exchange House<span style="color:red">*</span></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12" style="padding:0">
+                                        <div class="form-group rdp-form-group">
+                                            <span class="has-float-label">
+                                                <input class="form-control rdp-input" id="tTNumber" type="text" placeholder="TT Number" [disabled]="disableTTNumber" [(ngModel)]="tTNumber" />
+                                                <label for="tTNumber">TT Number</label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-md-12" style="padding:0">
+                                        <div class="form-group rdp-form-group">
+                                            <span class="has-float-label">
+                                                <input class="form-control rdp-input" id="amount" type="text" placeholder="Amount" (ngModelChange)="amount=$event" required
+                                                       [ngModel]="amount|bdcurrency" style="text-align:right" maxlength="12" autocomplete="off"
+                                                       CurrencyInput="true" />
+                                                <label for="amount">Amount<span style="color:red">*</span></label>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <!--<div class="col-md-3" style="padding:0">
+                                        <div class="form-group rdp-form-group">
+                                            <label for="amount">In Words: </label>
+                                        </div>
+                                    </div>-->
+                                    <div class="col-md-12" style="padding:0">
+                                        <div class="form-group rdp-form-group">
+                                            <span class="in-word-amount">{{amount|inwordamount|capitalizeFirstChar}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12 mt-2">
+                    <div class="col-md-10">
+                    </div>
+                    <div class="col-md-1 pull-left" style="padding:0px">
+                        <button class="btn btn-default btn-rdp" style="width:100%" (click)="goBackOnSearch()">
+                            Back
+                        </button>
+
+                    </div>
+                    <div class="col-md-1 pull-right" style="padding-right:0px;padding-left:10px">
+                        <button style="width:100%" [disabled]="beneficiaryFormGroup.invalid || !isBMobileSelected || !isSenderSelected || !selectedCapturedPhotoId || pinNumber==''|| selectedexchangeHouse==''|| !amount"
+                                class="btn btn-default btn-rdp btn-ben-social"
+                                (click)="OnIFRReviewClick()">
+                            Review
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!----------------------------------------------- Mobile Number Confirmation Modal ----------------------------------------------->
+            <p-dialog header="Confirm Mobile Number" [(visible)]="showMobileModal" [modal]="true" [responsive]="true" [width]="300" [minWidth]="200" [minY]="70"
+                      [closeOnEscape]="false" [closable]="mobileModalClosable">
+                <div class="form-row">
+                    <div class="col-md-12" style="padding:0">
+                        <div class="form-group rdp-form-group">
+                            <span class="has-float-label">
+                                <input class="form-control rdp-input" id="bMobileNumber" type="text" pattern="[0][1][5-9][0-9]{8,8}"
+                                       [(ngModel)]="bMobileNumber" (ngModelChange)="checkMobileNo()" [disabled]="!mobileModalClosable"
+                                       #bMobileNumberNgModel="ngModel" (input)="checkValidMobileNo($event.target.value)"
+                                       pTooltip="11 digits" tooltipPosition="right" tooltipEvent="focus"
+                                       placeholder="Enter Mobile Number" OnlyNumber="true" required tabindex="16" minlength="11" maxlength="11" autofocus />
+                                <label for="bMobileNumber">Enter Mobile Number</label>
+                            </span>
+                            <span *ngIf="mobileValidSign"><i class="fa fa-check" style="color:green;position:absolute;top:8px;right:14px"> </i></span>
+                            <span *ngIf="bMobileNumber!='' && !mobileValidSign"><i class="fa fa-times" style="color:red;position:absolute;top:8px;right:14px"> </i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12" style="padding:0">
+                        <div class="form-group rdp-form-group">
+                            <span class="has-float-label">
+                                <input class="form-control rdp-input" id="bConfirmMobileNumber" type="text"
+                                       [(ngModel)]="bConfirmMobileNumber" (ngModelChange)="checkMobileNo()"
+                                       #bConfirmMobileNumberNgModel="ngModel"
+                                       pTooltip="11 digits" tooltipPosition="right" tooltipEvent="focus"
+                                       placeholder="Confirm Mobile Number" OnlyNumber="true" required tabindex="17" minlength="11" maxlength="11" />
+                                <label for="bConfirmMobileNumber">Confirm Mobile Number</label>
+                            </span>
+                            <span *ngIf="confirmMobileValidSign"><i class="fa fa-check" style="color:green;position:absolute;top:8px;right:14px"> </i></span>
+                            <span *ngIf="bConfirmMobileNumber!='' && !confirmMobileValidSign"><i class="fa fa-times" style="color:red;position:absolute;top:8px;right:14px"> </i></span>
+                        </div>
+                    </div>
+                </div>
+                <p-footer>
+                    <button class="btn btn-default btn-rdp" type="button" pButton (click)="showMobileModal=false" label="Cancel" tabindex="19" [disabled]="!mobileModalClosable"></button>
+                    <button class="btn btn-default btn-rdp" type="button" pButton label="Confirm" (click)="onConfirmClick()" tabindex="18"
+                            [disabled]="bMobileNumberNgModel.invalid || bMobileNumber != bConfirmMobileNumber"></button>
+                </p-footer>
+            </p-dialog>
+            <!----------------------------------------------- Mobile Send OTP Modal ----------------------------------------------->
+            <p-dialog header="Send OTP" [(visible)]="showSendOTPModal" [modal]="true" [responsive]="true" [width]="300" [minWidth]="200" [minY]="70" [closable]="mobileModalClosable">
+                <div class="form-row">
+                    <div class="col-md-12" style="padding:0">
+                        <div class="form-group rdp-form-group">
+                            <p>Receive OTP to verify your mobile number.</p>
+                        </div>
+                    </div>
+                </div>
+                <p-footer>
+                    <button class="btn btn-default btn-rdp" type="button" pButton (click)="onOTPSkipClick()" label="Skip"></button>
+                    <button class="btn btn-default btn-rdp" type="button" pButton (click)="onOTPSendClick()" label="Send"></button>
+                </p-footer>
+            </p-dialog>
+            <!----------------------------------------------- Mobile Verify OTP Modal ----------------------------------------------->
+            <p-dialog header="Verify OTP" [(visible)]="showVerifyOTPModal" (onHide)="onVerifyOTPModalHide()" [modal]="true" [responsive]="true" [width]="300" [minWidth]="200" [minY]="70">
+                <div class="form-row">
+                    <div class="col-md-12" style="padding:0">
+                        <div class="form-group rdp-form-group">
+                            <span class="has-float-label">
+                                <input class="form-control rdp-input" id="bOTPCode" type="text"
+                                       [(ngModel)]="bOTPCode" placeholder="Enter OTP Code" #bOTPCodeNgModel="ngModel"
+                                       pTooltip="6 digits code" tooltipPosition="right" tooltipEvent="focus" (input)="checkOTP($event.target.value)"
+                                       OnlyNumber="true" required minlength="6" maxlength="6" autofocus />
+                                <label for="bOTPCode">Enter OTP Code</label>
+                            </span>
+                            <span *ngIf="bOTPCodeNgModel.valid"><i class="fa fa-check" style="color:green;position:absolute;top:8px;right:14px"> </i></span>
+                        </div>
+                    </div>
+                </div>
+                <p-footer class="text-center">
+                    <button class="btn btn-default btn-rdp" type="button" pButton (click)="onOTPSkipClick()" label="Skip"></button>
+                    <button class="btn btn-default btn-rdp" type="button" pButton (click)="onOTPResendClick()" label="Re-send"></button>
+                    <button class="btn btn-default btn-rdp" type="button" pButton [disabled]="sendOTPByServer!==bOTPCode" (click)="onOTPVerifyClick()" label="Verify"></button>
+                </p-footer>
+            </p-dialog>
+            <!----------------------------------------------- Beneficiary: Social Media Modal ----------------------------------------------->
+            <p-dialog header="Social Media" [(visible)]="bSocialMediaModal" [modal]="true" [responsive]="true" [width]="280" [minWidth]="200" [minY]="70">
+                <div class="form-row">
+                    <div class="col-md-12" style="padding:0">
+                        <div class="form-group rdp-form-group">
+                            <span class="has-float-label">
+                                <input class="form-control rdp-input" id="bFacebookId" type="text"
+                                       [(ngModel)]="bFacebookId" placeholder="Facebook Id" />
+                                <label for="bFacebookId">Enter Facebook Id</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12" style="padding:0">
+                        <div class="form-group rdp-form-group">
+                            <span class="has-float-label">
+                                <input class="form-control rdp-input" id="bEmail" type="email"
+                                       [(ngModel)]="bEmail" placeholder="Email Address" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
+                                <label for="bEmail">Email Address</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-9">
+                        <label>
+                            Do you have ?
+                        </label>
+                    </div>
+                    <div class="col-md-3">
+                        Yes
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12" style="padding:0">
+                        <div class="form-group rdp-form-group">
+                            <p-checkbox label="Smart Phone" [(ngModel)]="bSmartPhone" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12" style="padding:0">
+                        <div class="form-group rdp-form-group">
+                            <p-checkbox label="Internet" [(ngModel)]="bInternet" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12" style="padding:0">
+                        <div class="form-group rdp-form-group">
+                            <p-checkbox label="Imo" [(ngModel)]="bImo" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12" style="padding:0">
+                        <div class="form-group rdp-form-group">
+                            <p-checkbox label="Viber" [(ngModel)]="bViber" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12" style="padding:0">
+                        <div class="form-group rdp-form-group">
+                            <p-checkbox label="Whatsapp" [(ngModel)]="bWhatsapp" binary="true"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <p-footer>
+                    <button type="button" pButton class="btn btn-default btn-rdp" (click)="onBeneSocialDoneClick()" label="Done"></button>
+                </p-footer>
+            </p-dialog>
+            <!----------------------------------------------- Sender: Social Media Modal ----------------------------------------------->
+            <p-dialog header="Social Media" [(visible)]="sSocialMediaModal" [modal]="true" [responsive]="true" [width]="280" [minWidth]="200" [minY]="70">
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group rdp-form-group">
+                            <span class="has-float-label">
+                                <input class="form-control rdp-input" id="sFacebookId" type="text" [disabled]="isDisableSenderControl"
+                                       [(ngModel)]="sFacebookId" placeholder="Facebook Id" />
+                                <label for="sFacebookId">Enter Facebook Id</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group rdp-form-group">
+                            <span class="has-float-label">
+                                <input class="form-control rdp-input" id="sEmail" type="email" [disabled]="isDisableSenderControl"
+                                       [(ngModel)]="sEmail" placeholder="Email Address"  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"/>
+                                <label for="sEmail">Email Address</label>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-9">
+                        <label>
+                            Do you have ?
+                        </label>
+                    </div>
+                    <div class="col-md-3">
+                        Yes
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group rdp-form-group">
+                            <p-checkbox label="Smart phone" [(ngModel)]="sSmartPhone" binary="true" [disabled]="isDisableSenderControl"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group rdp-form-group">
+                            <p-checkbox label="Internet" [(ngModel)]="sInternet" binary="true" [disabled]="isDisableSenderControl"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group rdp-form-group">
+                            <p-checkbox label="Imo" [(ngModel)]="sImo" binary="true" [disabled]="isDisableSenderControl"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group rdp-form-group">
+                            <p-checkbox label="Viber" [(ngModel)]="sViber" binary="true" [disabled]="isDisableSenderControl"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-md-12">
+                        <div class="form-group rdp-form-group">
+                            <p-checkbox label="Whatsapp" [(ngModel)]="sWhatsapp" binary="true" [disabled]="isDisableSenderControl"></p-checkbox>
+                        </div>
+                    </div>
+                </div>
+                <p-footer>
+                    <button type="button" pButton class="btn btn-default btn-rdp" (click)="onSenderSocialDoneClick()" [disabled]="isDisableSenderControl" label="Done"></button>
+                </p-footer>
+            </p-dialog>
+            <!----------------------------------------------- User Photo Dialog ----------------------------------------------->
+            <p-dialog [(visible)]="userPhotoDialog" modal="true" dismissableMask="true" [responsive]="true" draggable="" resizable="" class="camera-dialog">
+                <p-header>
+                    Capture Photo
+                </p-header>
+                <webcam *ngIf="userPhotoDialog" [canvasWidth]="500" [canvasHeight]="400" (onPhotoUpload)="captureUserPhoto($event)"></webcam>
+                <p-footer>
+                </p-footer>
+            </p-dialog>
+            <!----------------------------------------------- Photo Id Front Dialog ----------------------------------------------->
+            <p-dialog [(visible)]="photoIdFrontDialog" modal="true" dismissableMask="true" [responsive]="true" draggable="" resizable="" class="camera-dialog">
+                <p-header>
+                    Capture Photo
+                </p-header>
+                <webcam *ngIf="photoIdFrontDialog" [canvasWidth]="650" [canvasHeight]="400" (onPhotoUpload)="captureFrontPhoto($event)"></webcam>
+                <p-footer>
+                </p-footer>
+            </p-dialog>
+            <!----------------------------------------------- Photo Id Back Dialog ----------------------------------------------->
+            <p-dialog [(visible)]="photoIdBackDialog" modal="true" dismissableMask="true" [responsive]="true" draggable="" resizable="" class="camera-dialog">
+                <p-header>
+                    Capture Photo
+                </p-header>
+                <webcam *ngIf="photoIdBackDialog" [canvasWidth]="650" [canvasHeight]="400" (onPhotoUpload)="captureBackPhoto($event)"></webcam>
+                <p-footer>
+                </p-footer>
+            </p-dialog>
+            <!----------------------------------------------- Customer Photo Dialog ----------------------------------------------->
+            <p-dialog header="Customer Photo" [(visible)]="customerPhotoModalDialog" modal="true" dismissableMask="true">
+                <img [src]="userPhoto" alt="Customer Photo" [style.width.px]="500" [style.height.px]="400" style="object-fit: contain;" />
+            </p-dialog>
+            <!----------------------------------------------- Front Photo Dialog ----------------------------------------------->
+            <p-dialog header="Photo Id Front" [(visible)]="frontPhotoModalDialog" modal="true" dismissableMask="true">
+                <img [src]="photoIdFrontPhoto" alt="Photo Id Front" [style.width.px]="650" [style.height.px]="400" style="object-fit: contain;" />
+            </p-dialog>
+            <!----------------------------------------------- Back Photo Dialog ----------------------------------------------->
+            <p-dialog header="Photo Id Back" [(visible)]="backPhotoModalDialog" modal="true" dismissableMask="true">
+                <img [src]="photoIdBackPhoto" alt="Photo Id Back" [style.width.px]="650" [style.height.px]="400" style="object-fit: contain;" />
+            </p-dialog>
+            <!----------------------------------------------- Finger print Modal ----------------------------------------------->
+            <p-dialog header="Finger Print scan" [(visible)]="showFingerScanModal" [modal]="true" [responsive]="true" [width]="500" [minWidth]="400" [minY]="70">
+                <div class="form-row">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="row clearfix">
+                                <div class="form-group" *ngIf="rtFpDiv">
+                                    <img alt="empty" src="../../../assets/images/rt.png">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <button class="btn btn-warning" data-placement="bottom" id="btnScan" type="submit"
+                                                    (click)="rtFpScan()" *ngIf="isEnbleRtScanBtn" style="margin-bottom:5px">
+                                                <!--[disabled]="!isEnbleRtScanBtn">-->
+                                                <span aria-hidden="true">Finger Scan</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-success" data-placement="bottom" id="btnVarify" type="submit"
+                                                    (click)="rtVarifyFp()" *ngIf="!isEnbleRtScanBtn">
+                                                <span aria-hidden="true" class="fa fa-thumbs-o-up"> Verify</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-danger" data-placement="bottom" id="btnNotPre" type="submit"
+                                                    (click)="rtAbsentBtnCLick()" *ngIf="isEnbleRtScanBtn">
+                                                <span aria-hidden="true">Not Present </span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="form-group" *ngIf="riFpDiv">
+                                    <img alt="empty" src="../../../assets/images/ri.png">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <button class="btn btn-warning" data-placement="bottom" id="btnScan" type="submit"
+                                                    (click)="riFpScan()" *ngIf="isEnbleRiScanBtn" style="margin-bottom:5px">
+                                                <!--[disabled]="!isEnbleRiScanBtn"-->
+                                                <span aria-hidden="true">Finger Scan</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-success" data-placement="bottom" id="btnVarify" type="submit"
+                                                    (click)="riVarifyFp()" *ngIf="!isEnbleRiScanBtn">
+                                                <span aria-hidden="true" class="fa fa-thumbs-o-up">Verify</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-danger" data-placement="bottom" id="btnNotPre" type="submit"
+                                                    (click)="riAbsentBtnCLick()" *ngIf="isEnbleRiScanBtn">
+                                                <!--<span aria-hidden="true" class="fa fa-times"> Absent</span>-->
+                                                <span aria-hidden="true">Not Present </span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="form-group" *ngIf="ltFpDiv">
+                                    <img alt="empty" src="../../../assets/images/lt.png">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <button class="btn btn-warning" data-placement="bottom" id="btnScan" type="submit"
+                                                    (click)="ltFpScan()" *ngIf="isEnbleLtScanBtn" style="margin-bottom:5px">
+                                                <!--[disabled]="!isEnbleLtScanBtn"-->
+                                                <span aria-hidden="true">Finger Scan</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-success" data-placement="bottom" id="btnVarify" type="submit"
+                                                    (click)="ltVarifyFp()" *ngIf="!isEnbleLtScanBtn">
+                                                <span aria-hidden="true" class="fa fa-thumbs-o-up"> Verify</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-danger" data-placement="bottom" id="btnNotPre" type="submit"
+                                                    (click)="ltAbsentBtnCLick()" *ngIf="isEnbleLtScanBtn">
+                                                <span aria-hidden="true">Not Present </span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="form-group" *ngIf="liFpDiv">
+                                    <img alt="empty" src="../../../assets/images/li.png">
+                                    <ul class="list-inline">
+                                        <li>
+                                            <button class="btn btn-warning" data-placement="bottom" id="btnScan" type="submit" value="Finger Scan"
+                                                    (click)="liFpScan()" *ngIf="isEnbleLiScanBtn" style="margin-bottom:5px">
+                                                <!--[disabled]="!isEnbleLiScanBtn"-->
+                                                <span aria-hidden="true">Finger Scan</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-success" data-placement="bottom" id="btnVarify" type="submit"
+                                                    (click)="liVarifyFp()" *ngIf="isEnbleLiVerifyBtn">
+                                                <!--[disabled]="!isEnbleLiVerifyBtn"-->
+                                                <span aria-hidden="true" class="fa fa-thumbs-o-up"> Verify</span>
+                                            </button>
+                                        </li>
+                                        <li>
+                                            <button class="btn btn-danger" data-placement="bottom" id="btnNotPre" type="submit"
+                                                    (click)="liAbsentBtnCLick()" *ngIf="isEnbleLiScanBtn">
+                                                <span aria-hidden="true"> Not Present</span>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <b>Right Hand</b>
+                                    <ul class="list-group text-left">
+                                        <li class="list-group-item" id="rtList" *ngIf="rtScan"><input type="checkbox" id="rtCheckbox" disabled>Thumb</li>
+                                        <li class="list-group-item" id="rtvrList" style="background-color:#8CC152" *ngIf="rtVarify"><input type="checkbox" id="rtvrCheckbox" disabled checked>Thumb</li>
+                                        <li class="list-group-item" id="rtFpNotList" style="background-color:#ED5565" *ngIf="rtFpNot"><input type="checkbox" id="rtFpNotCheckbox" disabled>Thumb</li>
+
+                                        <li class="list-group-item" id="riList" *ngIf="riScan"><input type="checkbox" id="riCheckbox" disabled>Index</li>
+                                        <li class="list-group-item" id="rivrList" style="background-color:#8CC152" *ngIf="riVarify"><input type="checkbox" id="rivrCheckbox" disabled checked>Index</li>
+                                        <li class="list-group-item" id="riFpNotList" style="background-color:#ED5565" *ngIf="riFpNot"><input type="checkbox" id="riFpNotCheckbox" disabled>Index</li>
+
+                                    </ul>
+                                </div>
+                                <div class="col-md-6">
+                                    <b>Left Hand</b>
+                                    <ul class="list-group text-left">
+                                        <li class="list-group-item" id="ltList" *ngIf="ltScan"><input type="checkbox" id="rtCheckbox" disabled>Thumb</li>
+                                        <li class="list-group-item" id="ltvrList" style="background-color:#8CC152" *ngIf="ltVarify"><input type="checkbox" id="ltvrCheckbox" disabled checked>Thumb</li>
+                                        <li class="list-group-item" id="ltFpNotList" style="background-color:#ED5565" *ngIf="ltFpNot"><input type="checkbox" id="ltFpNotCheckbox" disabled>Thumb</li>
+
+                                        <li class="list-group-item" id="liList" *ngIf="liScan"><input type="checkbox" id="liCheckbox" disabled>Index</li>
+                                        <li class="list-group-item" id="livrList" style="background-color:#8CC152" *ngIf="liVarify"><input type="checkbox" id="livrCheckbox" disabled checked>Index</li>
+                                        <li class="list-group-item" id="liFpNotList" style="background-color:#ED5565" *ngIf="liFpNot"><input type="checkbox" id="liFpNotCheckbox" disabled>Index</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <canvas id="rtCanvasImg" class="fingerprint" *ngIf="rtFpCanvas"></canvas>
+                            <canvas id="riCanvasImg" class="fingerprint" *ngIf="riFpCanvas"></canvas>
+                            <canvas id="ltCanvasImg" class="fingerprint" *ngIf="ltFpCanvas"></canvas>
+                            <canvas id="liCanvasImg" class="fingerprint" *ngIf="liFpCanvas"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <p-footer>
+                    <button class="btn btn-default btn-rdp" type="button" pButton (click)="onFingerCloseClick()" label="Close"></button>
+                    <button class="btn btn-default btn-rdp" type="button" pButton (click)="onFingerScanDoneClick()" label="Done"></button>
+                </p-footer>
+            </p-dialog>
+        </div>
+    </div>
+    <div [hidden]="hideIFRReviewDiv">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <h5 id="notPrintableDiv" class="card-header ben-card-header  mb-3">Review Information </h5>
+                <div id="printablediv">
+                    <div class="form-row" id="notPrintableDiv">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 text-center">
+                            <div class="form-group rdp-form-group">
+                                <div class="has-float-label cap-float-label">
+                                    <img [src]="userPhoto" style="width:100px;height:80px;object-fit:contain;" />
+                                </div>
+                                User Photo
+                            </div>
+                        </div>
+                        <div class="col-md-4"></div>
+                    </div>
+
+                    <table>
+                        <thead></thead>
+                        <tbody>
+                            <tr>
+                                <td><label style="margin-bottom:0">PIN Number:</label> </td>
+                                <td>{{pinNumber}}</td>
+                            </tr>
+                            <tr>
+                                <td><label style="margin-bottom:0">Sender Name:</label> </td>
+                                <td>{{senderFormGroup.get('sName').value | uppercase}}</td>
+                            </tr>
+                            <tr>
+                                <td><label style="margin-bottom:0">Sender Country:</label> </td>
+                                <td>{{senderFormGroup.get('sCountry').value }}</td>
+                            </tr>
+                            <tr>
+                                <td><label style="margin-bottom:0">Beneficiary Name:</label> </td>
+                                <td>{{beneficiaryFormGroup.get('bName').value | uppercase}}</td>
+                            </tr>
+                            <tr>
+                                <td><label style="margin-bottom:0">Beneficiary Mobile:</label></td>
+                                <td *ngIf="isBMobileSelected">{{selectedBMobile.mobileNo}}</td>
+                            </tr>
+                            <tr>
+                                <td><label style="margin-bottom:0">Photo Id:</label></td>
+                                <td *ngIf="selectedCapturedPhotoId">{{selectedCapturedPhotoId.photoIdNo}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="form-row">
+                        <div class="col-md-6">
+                            <div class="col-md-2"></div>
+                            <div class="form-group rdp-form-group">
+                                <div class="has-float-label cap-float-label">
+                                    <img [src]="photoIdFrontPhoto" style="width:185px;height:115px;object-fit:contain;" />
+                                </div>
+                                Photo Id Front
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group rdp-form-group">
+                                <div class="has-float-label cap-float-label">
+                                    <img [src]="photoIdBackPhoto" style="width:185px;height:115px;object-fit:contain;" />
+                                </div>
+                                Photo Id Back
+                            </div>
+                        </div>
+                    </div>
+
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td><label style="margin-bottom:0">Printed By:</label> </td>
+                                <td>{{userName}}</td>
+                            </tr>
+                            <tr>
+                                <td><label style="margin-bottom:0">Printed On:</label> </td>
+                                <td>{{ currentDateTime |  date:'yyyy-MMM-dd hh:mm:ss a'}}</td>
+                            </tr>
+                            <tr>
+                                <td><label style="margin-bottom:0">Amount:</label> </td>
+                                <td>{{amount|bdcurrency }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="col-md-6" id="notPrintableDiv" style="padding: 5px;">
+                        <div class="form-row" *ngIf="showMatchAmountControl">
+                            <div class="col-md-12" style="padding:0">
+                                <div class="form-group rdp-form-group">
+                                    <span class="has-float-label">
+                                        <input class="form-control rdp-input" id="inputAmount" type="text" placeholder="Actual Amount In BDT" (ngModelChange)="inputAmount=$event;checkVerifyAmount()" required
+                                               [ngModel]="inputAmount|bdcurrency" style="text-align:right" maxlength="12" tabindex="20"
+                                               CurrencyInput="true" />
+                                        <label for="inputAmount">Actual Amount In BDT<span style="color:red">*</span></label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-row" *ngIf="showMatchAmountControl">
+                            <div class="col-md-12" style="padding:0">
+                                <div class="form-group rdp-form-group">
+                                    <span class="has-float-label">
+                                        <input class="form-control rdp-input" id="verifyAmount" type="text" placeholder="Verify Actual Amount In BDT"
+                                               (keyup)="checkVerifyAmount()" (ngModelChange)="verifyAmount=$event;checkVerifyAmount()" required tabindex="21"
+                                               [ngModel]="verifyAmount|bdcurrency" #verifyAmountNgModel="ngModel" style="text-align:right" maxlength="12"
+                                               CurrencyInput="true" />
+                                        <label for="verifyAmount">Verify Actual Amount In BDT<span style="color:red">*</span></label>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="margin-top:20px;" id="hideControlPrint">
+                        <div class="form-row">
+                            <div class="col-md-6">
+                                <hr style="margin:0" />
+                                <p>Customer Signature</p>
+                            </div>
+                            <div class="col-md-6">
+                                <hr style="margin:0" />
+                                <p>Officer Signature</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+
+        <div id="notPrintableDiv" class="text-center">
+            <ul class="list-inline">
+                <li class="list-inline-item"><button class="btn btn-default btn-block btn-rdp" id="goBackId" (click)="goBackIFRMenu()">Back</button></li>
+                <li class="list-inline-item"><button class="btn btn-default btn-block btn-rdp btn-ben-social" (click)="OnIFRPrintClick()">{{printBtnText}}</button></li>
+                <li class="list-inline-item"><button *ngIf="showMatchBtn" class="btn btn-default btn-block btn-rdp btn-verify" id="verifyExHouseId" (click)="OnIFRMatchClick()">Verify at exchange</button></li>
+                <li class="list-inline-item">
+                    <button *ngIf="showSubmitBtn" class="btn btn-default btn-block btn-rdp btn-success" (click)="OnIFRSubmitClick()" id="submitId"
+                            [disabled]="inputAmount==null ||removeAllComaFromAmount(inputAmount)!=removeAllComaFromAmount(verifyAmount)">
+                        Submit
+                    </button>
+                </li>
+                <li class="list-inline-item"><button *ngIf="showCancelBtn" class="btn btn-default btn-block btn-rdp btn-cancel" (click)="OnIFRRejectClick()">Reject</button></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!----------------------------------------------- Reject Modal ----------------------------------------------->
+<p-dialog header="Confirmation" [(visible)]="rejectConfirmationModal" [modal]="true" [responsive]="true" [width]="490" [minWidth]="200" [minY]="70">
+    Are you sure that you want to reject request?
+    Please mention your reject reason.
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" value="Wrong Pin." label="Wrong Pin." [(ngModel)]="rejectReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" value="Contact with Sender." label="Contact with Sender." [(ngModel)]="rejectReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" value="Amount Mismatch." label="Amount Mismatch." [(ngModel)]="rejectReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" value="Receiver’s name incorrect." label="Receiver’s name incorrect." [(ngModel)]="rejectReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" value="Payable To COC( Bank Account)." label="Payable To COC( Bank Account)." [(ngModel)]="rejectReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" value=" Age below 18, Contact with Sender." label=" Age below 18, Contact with Sender." [(ngModel)]="rejectReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" value="Wrong Phone no, Request resend with Correct phone no" label="Wrong Phone no, Request resend with Correct phone no" [(ngModel)]="rejectReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" value="Wrong NID, Request resend with Correct NID" label="Wrong NID, Request resend with Correct NID" [(ngModel)]="rejectReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" value="NID Not Clear, Request resend with clear NID." label="NID Not Clear, Request resend with clear NID." [(ngModel)]="rejectReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" value="Already Paid." label="Already Paid." [(ngModel)]="rejectReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" value="Receiver photo not cleared, resend again." label="Receiver photo not cleared, resend again." [(ngModel)]="rejectReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <p-checkbox class="check-confirm-left" binary="true" label="Other Reason" [(ngModel)]="otherReason"></p-checkbox>
+            </div>
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="col-md-12">
+            <div class="form-group rdp-form-group">
+                <span class="has-float-label" *ngIf="otherReason">
+                    <input class="form-control rdp-input" id="reason" type="text"
+                           [(ngModel)]="reasonText" placeholder="Reason" />
+                    <label for="reason">Reason</label>
+                </span>
+            </div>
+        </div>
+    </div>
+    <p-footer>
+        <button type="button" icon="fas fa-check" pButton id="cancelYesId" (click)="onRejectYesClick()" label="Yes" [disabled]="rejectReason.length==0&& reasonText==''"></button>
+        <button type="button" icon="fas fa-times" pButton (click)="onRejectNoClick()" label="No" class="ui-button-secondary"></button>
+    </p-footer>
+</p-dialog>
+<p-growl [value]="growlMessage"></p-growl>
+<p-confirmDialog width="325"></p-confirmDialog>

@@ -1,0 +1,95 @@
+<app-page-header class="doNotPrint" [heading]="'Remittance'" [heading_link]="'List View'" [active]="''" [icon]="'list'" [details]="'view_module'"  [title]="'Detail View'"></app-page-header>
+<section class="container-fluid">
+    <mat-card >
+        <div class="float-left" class="doNotPrint mb-3">
+            <button mat-raised-button (click)="goBack()" class="btnBack">
+                <mat-icon>arrow_back</mat-icon> Back</button>
+        </div>
+        <mat-divider class="doNotPrint"></mat-divider>
+        <mat-card-content>
+            <form class="pt-3">
+                <div class="row">
+                    <div class="col-sm-4"> </div>
+                    <div class="col-sm-4">
+                        <div class="text-center" style="height: 310px; width: 400px; " id="print-section">
+                            <table  style="border: 1px solid #e3e3e3; width: 100%;">
+                                
+                                <tr style="text-align: left">
+                                    <td colspan="2" class="pl-3 pt-3 pb-0">
+                                        <h4>{{personInfo?.bankName}}</h4>
+                                    </td>
+                                </tr>
+                                <tr class="text-center">
+                                    <td >
+                                        <img id="imagepath"  [src]="userPhoto"  width="120"  alt="Customer Image" />
+                                    </td>
+
+                                    <td>
+                                        <ngx-qrcode  class="pull-right" [qrc-element-type]="elementType" [qrc-value] = "personInfo?.oid">
+                                        </ngx-qrcode>
+                                    </td>
+                                </tr>
+                                <tr class="text-left">
+                                    <td colspan="2" class="pl-3 pb-3">
+                                        <span><strong>{{personInfo?.fullName}}</strong></span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="doNotPrint pl-5 pb-5">
+                            <button mat-raised-button (click)="printClick()" class="btnSubmit">
+                                <mat-icon>print</mat-icon> Print</button>
+                            <button mat-raised-button (click)="emailClick()" class="btnDefault" style="margin-left: 15px">
+                                    <mat-icon>email</mat-icon> Email</button>
+                            <button mat-raised-button (click)="pdfClick()" class="btnSubmit" style="margin-left: 15px">
+                                    <mat-icon>save</mat-icon> PDF</button>
+                        </div>
+
+
+                    </div>
+                    
+                    <div class="col-sm-3">
+
+                    </div>
+                        
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</section>
+
+
+<p-dialog header="Send Email" [(visible)]="showSendEmailModal" [modal]="true" [responsive]="true" [width]="500" [minWidth]="300" [minY]="70">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                <span class="has-float-label">
+                    <input required email class="form-control" name="email" [(ngModel)]="emailInfo.email" #email="ngModel" placeholder="Enter Your Email Address"  type="email"/>
+                    <label for="email">Email Address</label>
+                </span>
+                <div *ngIf="email.invalid" class="text-danger">
+                    <div *ngIf="email.errors?.required">Email is required.</div>
+                    <div *ngIf="email.errors?.email && !email.errors.required">Email must be a valid email address</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <span class="has-float-label">
+                    <input email class="form-control" name="otherEmail" [(ngModel)]="emailInfo.otherEmail" #otherEmail="ngModel" placeholder="Enter Your Additional Email Address" type="email"/>
+                    <label for="otherEmail">Additional Email Address</label>
+                </span>
+                <div *ngIf="otherEmail.invalid" class="text-danger">
+                    <div *ngIf="otherEmail.errors?.email">Email must be a valid email address</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <p-footer class="text-center">
+            <button mat-raised-button (click)="cancel()" class="btnDefault">
+                    <mat-icon>cancel</mat-icon> Cancel</button>
+            <button mat-raised-button (click)="sendEmailClick()" class="btnSubmit" style="margin-left: 15px">
+                    <mat-icon>email</mat-icon> Send</button>
+    </p-footer>
+</p-dialog>
+
+<p-growl [value]="msgs"> </p-growl>
